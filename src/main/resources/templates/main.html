@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Swedish Event Planners</title>
+    <link rel="stylesheet" th:href="@{/css/main.css}">
+</head>
+<body>
+    <!-- Navbar -->
+    <header>
+        <nav class="navbar">
+            <div class="logo">
+                <a href="#">Swedish Event Planners</a>
+            </div>
+            <ul class="menu">
+                <label th:text="'Logged in as: ' + ${user}"></label>
+                <li>
+                    <form method="post" th:action="@{/logout}">
+                        <a onclick="this.closest('form').submit();return false;" href="#">Logout</a>
+                    </form>
+                </li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Dashboard Section -->
+    <section class="dashboard" id="dashboard">
+        <div class="container">
+            <h1>Welcome to the Event Management Portal</h1>
+            <p>Create and manage events seamlessly. Track progress, view reports, and more.</p>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <section class="main-content">
+        <div class="content-box">
+            <h2>Create a New Event</h2>
+            <p>Start organizing your upcoming event by filling out all the necessary details.</p>
+            <a href="#create-event" class="btn">Get Started</a>
+        </div>
+
+        <div class="content-box">
+            <h2>Manage Existing Events</h2>
+            <p>View and modify details for your current or upcoming events.</p>
+            <a href="#manage-events" class="btn">Manage Events</a>
+        </div>
+
+        <div class="content-box">
+            <h2>View Reports</h2>
+            <p>Track the performance of your events through detailed reports and analytics.</p>
+            <a href="#reports" class="btn">View Reports</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>© 2024 Swedish Event Planners. All rights reserved.</p>
+    </footer>
+</body>
+</html>

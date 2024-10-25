@@ -1,0 +1,15 @@
+package se.swedisheventplanners.portal.domain.user;
+
+public enum Role {
+
+    CUSTOMER_SUPPORT_OFFICER,
+    SENIOR_CUSTOMER_SUPPORT_OFFICER,
+    HR_MANAGER,
+    FINANCIAL_MANAGER,
+    SERVICES_MANAGER,
+    PRODUCTION_MANAGER,
+    SERVICES_SUB_TEAM,
+    PRODUCTION_SUB_TEAM,
+    ADMINISTRATION_MANAGER
+
+}
