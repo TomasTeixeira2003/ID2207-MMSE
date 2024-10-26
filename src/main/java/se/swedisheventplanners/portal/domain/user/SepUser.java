@@ -9,8 +9,7 @@ import lombok.Data;
 public class SepUser {
 
     @Id
-    @SequenceGenerator(name = "sep_user_seq", sequenceName = "sep_user_seq", initialValue = 1, allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sep_user_seq")
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id;
 
     @Column(name = "username")

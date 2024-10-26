@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Create User - Swedish Event Planners</title>
+    <link rel="stylesheet" th:href="@{/css/main.css}">
+</head>
+<body>
+<!-- Navbar -->
+<header>
+    <nav class="navbar">
+        <div class="logo">
+            <a th:href="@{/main}">Swedish Event Planners</a>
+        </div>
+        <ul class="menu">
+            <label th:text="'Logged in as: ' + ${user}"></label>
+            <li>
+                <form method="post" th:action="@{/logout}">
+                    <a onclick="this.closest('form').submit();return false;" href="#">Logout</a>
+                </form>
+            </li>
+        </ul>
+    </nav>
+</header>
+
+<!-- Create User Section -->
+<section class="create-user">
+    <div class="container">
+        <h1>Create User</h1>
+        <form th:action="@{/createNewUser}" id="userForm" method="POST">
+            <div class="form-group">
+                <label for="username">Username:</label>
+                <input type="text" id="username" name="username" required>
+            </div>
+            <div class="form-group">
+                <label for="hash">Password:</label>
+                <input type="password" id="hash" name="hash" required>
+            </div>
+            <div class="form-group">
+                <label for="confirm-password">Confirm Password:</label>
+                <input type="password" id="confirm-password" name="confirm-password" required>
+            </div>
+            <div class="form-group">
+                <label for="role">Select Role:</label>
+                <select id="role" name="role" required>
+                    <option value="" disabled selected>Select your role</option>
+                    <option th:name="role" th:each="role  : ${roles}" th:value="${role.value}" th:text="${role.label}"></option>
+                </select>
+            </div>
+            <button type="button" onclick="checkPasswords()" class="btn-submit">Create User</button>
+        </form>
+    </div>
+</section>
+
+<!-- Footer -->
+<footer>
+    <p>© 2024 Swedish Event Planners. All rights reserved.</p>
+</footer>
+<script type="text/javascript">
+    checkPasswords = function () {
+        const password = document.getElementById("hash").value
+        const confirmPassword = document.getElementById("confirm-password").value
+        if (password === confirmPassword) {
+            document.getElementById('userForm').submit()
+        } else {
+            alert("Passwords do not match!")
+        }
+    }
+</script>
+</body>
+</html>
