@@ -172,6 +172,28 @@ public class RoutingController {
         return "manage_tasks";
     }
 
+    @PreAuthorize("hasAnyAuthority('SERVICES_MANAGER', 'PRODUCTION_MANAGER')")
+    @PostMapping("/changeTaskPriority")
+    public String deleteTask(Model model, @RequestParam Long id, @RequestParam Priority priority, HttpServletResponse response) throws IOException {
+        List<TaskDto> tasks = modelMapper.map(taskService.changeTaskPriority(id, priority), new TypeToken<List<TaskDto>>() {}.getType());
+        model.addAttribute("tasks", tasks);
+        addAuthenticationToModel(model);
+        addAssigneesAndPrioritiesToModel(model);
+        response.sendRedirect("/manageTasks");
+        return "manage_tasks";
+    }
+
+    @PreAuthorize("hasAnyAuthority('SERVICES_MANAGER', 'PRODUCTION_MANAGER')")
+    @PostMapping("/changeTaskAssignee")
+    public String changeTaskAssignee(Model model, @RequestParam Long id, @RequestParam Long assigneeId, HttpServletResponse response) throws IOException {
+        List<TaskDto> tasks = modelMapper.map(taskService.changeTaskAssignee(id, assigneeId), new TypeToken<List<TaskDto>>() {}.getType());
+        model.addAttribute("tasks", tasks);
+        addAuthenticationToModel(model);
+        addAssigneesAndPrioritiesToModel(model);
+        response.sendRedirect("/manageTasks");
+        return "manage_tasks";
+    }
+
     private void addAuthenticationToModel(Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         Role role = Role.valueOf(authentication.getAuthorities().stream()

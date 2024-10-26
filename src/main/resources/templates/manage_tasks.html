@@ -50,20 +50,26 @@
                 <td>
                     <a th:if="${userRole.name() == 'PRODUCTION_MANAGER' || userRole.name() == 'SERVICE_MANAGER'}" href="#edit-task" class="btn">Edit</a>
                     <a th:if="${userRole.name() == 'PRODUCTION_SUB_TEAM' || userRole.name() == 'SERVICE_SUB_TEAM'}" href="#new-resource-request" class="btn">New Resource Request</a>
-                    <select th:if="${userRole.name() == 'PRODUCTION_MANAGER' || userRole.name() == 'SERVICE_MANAGER'}" onchange="changeAssignee(this)">
-                        <option value="" disabled selected>Select a user</option>
-                        <option th:name="assignee" th:each="sepUser  : ${sepUsers}" th:value="${sepUser.id}" th:text="${sepUser.username}"></option>
-                    </select>
-                    <select th:if="${userRole.name() == 'PRODUCTION_SUB_TEAM' || userRole.name() == 'SERVICE_SUB_TEAM'}" onchange="changeStatus(this)">
-                        <option value="" disabled selected>Change Status</option>
-                        <option value="In Progress">In Progress</option>
-                        <option value="Completed">Completed</option>
-                        <option value="Pending">Pending</option>
-                    </select>
-                    <select th:if="${userRole.name() == 'PRODUCTION_MANAGER' || userRole.name() == 'SERVICE_MANAGER'}" onchange="changePriority(this)">
-                        <option value="" disabled selected>Select a priority</option>
-                        <option th:name="priority" th:each="priority  : ${priorities}" th:value="${priority}" th:text="${priority.label}"></option>
-                    </select>
+                    <form id="assigneeForm" th:action="@{'/changeTaskAssignee?id=' + ${task.id}}" method="POST">
+                        <select th:name="assigneeId" th:if="${userRole.name() == 'PRODUCTION_MANAGER' || userRole.name() == 'SERVICE_MANAGER'}" onchange="changeAssignee(this)">
+                            <option value="" disabled selected>Select a user</option>
+                            <option th:name="assignee" th:each="sepUser  : ${sepUsers}" th:value="${sepUser.id}" th:text="${sepUser.username}"></option>
+                        </select>
+                    </form>
+                    <form>
+                        <select th:if="${userRole.name() == 'PRODUCTION_SUB_TEAM' || userRole.name() == 'SERVICE_SUB_TEAM'}" onchange="changeStatus(this)">
+                            <option value="" disabled selected>Change Status</option>
+                            <option value="In Progress">In Progress</option>
+                            <option value="Completed">Completed</option>
+                            <option value="Pending">Pending</option>
+                        </select>
+                    </form>
+                    <form id="priorityForm" th:action="@{'/changeTaskPriority?id=' + ${task.id}}" method="POST">
+                        <select th:name="priority" th:if="${userRole.name() == 'PRODUCTION_MANAGER' || userRole.name() == 'SERVICE_MANAGER'}" onchange="changePriority(this)">
+                            <option value="" disabled selected>Select a priority</option>
+                            <option th:each="priority  : ${priorities}" th:value="${priority}" th:text="${priority.label}"></option>
+                        </select>
+                    </form>
                     <a th:if="${userRole.name() == 'PRODUCTION_MANAGER' || userRole.name() == 'SERVICE_MANAGER'}"  th:href="@{'/deleteTask?id=' + ${task.id}}" class="btn" onclick="return confirm('Are you sure you want to delete this task?');">Delete</a>
                 </td>
             </tr>
@@ -81,20 +87,21 @@
     function changeAssignee(select) {
         const selectedValue = select.value;
         // Implement logic for changing the assignee
-        alert(`Assignee changed to: ${selectedValue}`);
+        document.getElementById('assigneeForm').submit();
     }
 
     function changeStatus(select) {
         const selectedValue = select.value;
         // Implement logic for changing the status
-        alert(`Status changed to: ${selectedValue}`);
+        document.getElementById('assigneeForm').submit();
     }
 
     function changePriority(select) {
         const selectedValue = select.value;
         // Implement logic for changing the priority
-        alert(`Priority changed to: ${selectedValue}`);
+        document.getElementById('priorityForm').submit();
     }
+
 </script>
 </body>
 </html>
