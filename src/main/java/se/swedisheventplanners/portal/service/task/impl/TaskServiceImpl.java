@@ -60,4 +60,12 @@ public class TaskServiceImpl implements TaskService {
         taskRepository.save(task);
         return taskRepository.findAll();
     }
+
+    @Override
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
+    public Task edit(Task editedTask) {
+        Task originalTask = findById(editedTask.getId());
+        editedTask.setStatus(originalTask.getStatus());
+        return taskRepository.save(editedTask);
+    }
 }

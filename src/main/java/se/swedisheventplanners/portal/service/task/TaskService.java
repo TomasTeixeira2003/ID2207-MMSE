@@ -18,4 +18,6 @@ public interface TaskService {
     List<Task> changeTaskPriority(Long id, Priority priority);
 
     List<Task> changeTaskAssignee(Long id, Long assigneeId);
+
+    Task edit(Task editedTask);
 }

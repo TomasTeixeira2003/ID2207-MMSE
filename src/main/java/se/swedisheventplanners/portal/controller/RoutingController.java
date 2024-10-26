@@ -194,6 +194,26 @@ public class RoutingController {
         return "manage_tasks";
     }
 
+    @PreAuthorize("hasAnyAuthority('SERVICES_MANAGER', 'PRODUCTION_MANAGER')")
+    @GetMapping("/editTask")
+    public String editTask(Model model, @RequestParam Long id) {
+        TaskDto editedTask = modelMapper.map(taskService.findById(id), TaskDto.class);
+        model.addAttribute("editedTask", editedTask);
+        addAuthenticationToModel(model);
+        addAssigneesAndPrioritiesToModel(model);
+        return "edit_task";
+    }
+
+    @PreAuthorize("hasAnyAuthority('SERVICES_MANAGER', 'PRODUCTION_MANAGER')")
+    @PostMapping("/editTask")
+    public String editTaskPost(@RequestParam Long id, @ModelAttribute TaskDto taskDto, HttpServletResponse response) throws IOException {
+        Task editedTask = modelMapper.map(taskDto, Task.class);
+        editedTask.setId(id);
+        taskService.edit(editedTask);
+        response.sendRedirect("/manageTasks");
+        return "manage_tasks";
+    }
+
     private void addAuthenticationToModel(Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         Role role = Role.valueOf(authentication.getAuthorities().stream()
