@@ -16,7 +16,7 @@ CREATE TABLE sep_user
 );
 
 
-INSERT INTO sep_user (username, hash, role) VALUES ('bakalis', '$2y$10$43jfmaTXya8yJxXWvHkyV.8t6yqaIaGAEJe.TDUKCY7psO8nvVCzu', 'SENIOR_CUSTOMER_SUPPORT_OFFICER');
+INSERT INTO sep_user (username, hash, role) VALUES ('bakalis', '$2y$10$43jfmaTXya8yJxXWvHkyV.8t6yqaIaGAEJe.TDUKCY7psO8nvVCzu', 'PRODUCTION_MANAGER');
 INSERT INTO sep_user (username, hash, role) VALUES ('admin', '$2y$10$43jfmaTXya8yJxXWvHkyV.8t6yqaIaGAEJe.TDUKCY7psO8nvVCzu', 'ADMINISTRATION_MANAGER');
 
 ------------------------------------------------------------------------
@@ -31,6 +31,7 @@ CREATE TABLE task
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     project VARCHAR(1024) NOT NULL,
     description TEXT NOT NULL,
+    status VARCHAR(64) NOT NULL,
     assignee_id BIGINT NOT NULL,
     priority VARCHAR(64) NOT NULL
 );

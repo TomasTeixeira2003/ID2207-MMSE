@@ -20,6 +20,10 @@ public class Task implements Serializable {
     @Column(name = "description")
     private String description;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status")
+    private TaskStatus status;
+
     @Column(name = "assignee_id")
     private Long assigneeId;
 

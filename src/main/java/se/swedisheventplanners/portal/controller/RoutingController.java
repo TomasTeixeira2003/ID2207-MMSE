@@ -14,6 +14,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import se.swedisheventplanners.portal.domain.task.Priority;
 import se.swedisheventplanners.portal.domain.task.Task;
+import se.swedisheventplanners.portal.domain.task.TaskStatus;
 import se.swedisheventplanners.portal.domain.user.Role;
 import se.swedisheventplanners.portal.domain.user.SepUser;
 import se.swedisheventplanners.portal.model.routing.PageLink;
@@ -25,6 +26,8 @@ import se.swedisheventplanners.portal.service.task.TaskService;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Controller
@@ -119,31 +122,10 @@ public class RoutingController {
     @PreAuthorize("hasAnyAuthority('SERVICES_MANAGER', 'PRODUCTION_MANAGER')")
     @GetMapping("/createTask")
     public String createTask(Model model) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        Role role = Role.valueOf(authentication.getAuthorities().stream()
-                .findAny().orElseThrow(() -> new IllegalStateException("No Role for authenticated user")).getAuthority());
-        Role subTeamRole = switch (role) {
-            case SERVICES_MANAGER -> Role.SERVICES_SUB_TEAM;
-            case PRODUCTION_MANAGER -> Role.PRODUCTION_SUB_TEAM;
-            default -> throw new IllegalStateException("Unexpected value: " + role);
-        };
-        List<SepUserDto> sepUsers = modelMapper.map(sepUserService.findByRole(subTeamRole), new TypeToken<List<SepUserDto>>() {}.getType());
         addAuthenticationToModel(model);
-        model.addAttribute("sepUsers", sepUsers);
-        model.addAttribute("priorities", Priority.values());
+        addAssigneesAndPrioritiesToModel(model);
         return "create_task";
     }
-
-    @PreAuthorize("hasAnyAuthority('SERVICES_MANAGER', 'PRODUCTION_MANAGER')")
-    @PostMapping("/createTask")
-    public String createTaskPost(Model model, @ModelAttribute TaskDto taskDto, HttpServletResponse response) throws IOException {
-        Task task = modelMapper.map(taskDto, Task.class);
-        taskService.save(task);
-        addAuthenticationToModel(model);
-        response.sendRedirect("/main");
-        return "main";
-    }
-
 
     @PreAuthorize("hasAuthority('ADMINISTRATION_MANAGER')")
     @PostMapping("/editUserRole")
@@ -153,13 +135,65 @@ public class RoutingController {
         return "manage_users";
     }
 
+    @PreAuthorize("hasAnyAuthority('SERVICES_MANAGER', 'PRODUCTION_MANAGER')")
+    @PostMapping("/createTask")
+    public String createTaskPost(Model model, @ModelAttribute TaskDto taskDto, HttpServletResponse response) throws IOException {
+        Task task = modelMapper.map(taskDto, Task.class);
+        task.setStatus(TaskStatus.ASSIGNED);
+        taskService.save(task);
+        addAuthenticationToModel(model);
+        response.sendRedirect("/main");
+        return "main";
+    }
+
+    @PreAuthorize("hasAnyAuthority('SERVICES_MANAGER', 'PRODUCTION_MANAGER', 'SERVICES_SUB_TEAM', 'PRODUCTION_SUB_TEAM')")
+    @GetMapping("/manageTasks")
+    public String manageTasks(Model model) throws IOException {
+        Map<Long, String> userNames = sepUserService.findAll().stream().collect(Collectors.toMap(SepUser::getId, SepUser::getUsername));
+        List<TaskDto> tasks = taskService.findAll().stream().map(t -> {
+            TaskDto taskDto = modelMapper.map(t, TaskDto.class);
+            taskDto.setAssigneeName(userNames.get(t.getAssigneeId()));
+            return taskDto;
+        }).collect(Collectors.toList());
+        model.addAttribute("tasks", tasks);
+        addAssigneesAndPrioritiesToModel(model);
+        addAuthenticationToModel(model);
+        return "manage_tasks";
+    }
+
+    @PreAuthorize("hasAnyAuthority('SERVICES_MANAGER', 'PRODUCTION_MANAGER')")
+    @GetMapping("/deleteTask")
+    public String deleteTask(Model model, @RequestParam Long id, HttpServletResponse response) throws IOException {
+        List<TaskDto> tasks = modelMapper.map(taskService.deleteTask(id), new TypeToken<List<TaskDto>>() {}.getType());
+        model.addAttribute("tasks", tasks);
+        addAuthenticationToModel(model);
+        addAssigneesAndPrioritiesToModel(model);
+        response.sendRedirect("/manageTasks");
+        return "manage_tasks";
+    }
+
     private void addAuthenticationToModel(Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         Role role = Role.valueOf(authentication.getAuthorities().stream()
                 .findAny().orElseThrow(() -> new IllegalStateException("No Role for authenticated user")).getAuthority());
         List<PageLink> linksForUser = roleServiceFactory.getRoleService(role).getRolePageLinks();
         model.addAttribute("user", authentication.getName());
+        model.addAttribute("userRole", role);
         model.addAttribute("links", linksForUser);
+    }
+
+    private void addAssigneesAndPrioritiesToModel(Model model) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Role role = Role.valueOf(authentication.getAuthorities().stream()
+                .findAny().orElseThrow(() -> new IllegalStateException("No Role for authenticated user")).getAuthority());
+        Role subTeamRole = switch (role) {
+            case SERVICES_MANAGER -> Role.SERVICES_SUB_TEAM;
+            case PRODUCTION_MANAGER -> Role.PRODUCTION_SUB_TEAM;
+            default -> throw new IllegalStateException("Unexpected value: " + role);
+        };
+        List<SepUserDto> sepUsers = modelMapper.map(sepUserService.findByRole(subTeamRole), new TypeToken<List<SepUserDto>>() {}.getType());
+        model.addAttribute("sepUsers", sepUsers);
+        model.addAttribute("priorities", Priority.values());
     }
 
 }

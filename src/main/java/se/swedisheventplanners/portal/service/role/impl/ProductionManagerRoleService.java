@@ -22,6 +22,10 @@ public class ProductionManagerRoleService implements RoleService {
         return List.of(new PageLink("/createTask",
                 "Create a New Task",
                 "Create a New Task",
-                "Create Task"));
+                "Create Task"),
+                new PageLink("/manageTasks",
+                "Manage Tasks",
+                        "Manage Tasks",
+                "Manage Tasks"));
     }
 }
