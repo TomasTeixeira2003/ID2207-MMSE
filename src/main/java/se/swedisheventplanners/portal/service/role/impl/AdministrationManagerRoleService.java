@@ -22,6 +22,10 @@ public class AdministrationManagerRoleService implements RoleService {
         return List.of(new PageLink("/createNewUser",
                 "Create a New SEP User",
                 "Create a New SEP User",
-                "Create User"));
+                "Create User"),
+                new PageLink("/manageUsers",
+                "Manage SEP Users",
+                "Check the list of all the registered SEP Users",
+                "View Users"));
     }
 }

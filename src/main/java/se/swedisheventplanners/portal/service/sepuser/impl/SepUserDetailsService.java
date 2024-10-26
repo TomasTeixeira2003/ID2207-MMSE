@@ -29,6 +29,10 @@ public class SepUserDetailsService implements UserDetailsService {
             log.warn("user not found: {}", username);
             throw new UsernameNotFoundException("User " + username + " not found");
         }
+        if (!user.isActive()) {
+            log.warn("user not active: {}", username);
+            throw new IllegalArgumentException("User " + username + " not active");
+        }
         final List<SimpleGrantedAuthority> roles = Collections.singletonList(new SimpleGrantedAuthority(user.getRole().name()));
         return new SepUserDetails(user.getId(), username, user.getHash(), roles);
     }

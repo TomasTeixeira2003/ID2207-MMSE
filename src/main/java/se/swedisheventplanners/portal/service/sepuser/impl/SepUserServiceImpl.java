@@ -8,6 +8,8 @@ import se.swedisheventplanners.portal.domain.user.SepUser;
 import se.swedisheventplanners.portal.repository.SepUserRepository;
 import se.swedisheventplanners.portal.service.SepUserService;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class SepUserServiceImpl implements SepUserService {
@@ -18,6 +20,39 @@ public class SepUserServiceImpl implements SepUserService {
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
     public SepUser createSepUser(SepUser sepUser) {
         return sepUserRepository.save(sepUser);
+    }
+
+    @Override
+    @Transactional(readOnly = true, propagation = Propagation.REQUIRED)
+    public List<SepUser> findAll() {
+        return sepUserRepository.findAll();
+    }
+
+    @Override
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
+    public List<SepUser> deactivateUser(Long id) {
+        SepUser sepUser = sepUserRepository.findById(id)
+                .orElseThrow(() -> new IllegalStateException(String.format("User with id: %d not found", id)));
+        sepUser.setActive(false);
+        sepUserRepository.save(sepUser);
+        return sepUserRepository.findAll();
+    }
+
+    @Override
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
+    public List<SepUser> reactivateUser(Long id) {
+        SepUser sepUser = sepUserRepository.findById(id)
+                .orElseThrow(() -> new IllegalStateException(String.format("User with id: %d not found", id)));
+        sepUser.setActive(true);
+        sepUserRepository.save(sepUser);
+        return sepUserRepository.findAll();
+    }
+
+    @Override
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
+    public List<SepUser> deleteUser(Long id) {
+        sepUserRepository.deleteById(id);
+        return sepUserRepository.findAll();
     }
 
 }

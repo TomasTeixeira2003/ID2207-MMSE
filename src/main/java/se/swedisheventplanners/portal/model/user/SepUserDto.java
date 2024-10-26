@@ -15,4 +15,7 @@ public class SepUserDto implements Serializable {
     private String hash;
 
     private Role role;
+
+    private boolean active;
+
 }

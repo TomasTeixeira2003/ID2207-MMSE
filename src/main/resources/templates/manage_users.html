@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Manage Users - Swedish Event Planners</title>
+    <link rel="stylesheet" th:href="@{/css/main.css}">
+</head>
+<body>
+<!-- Navbar -->
+<header>
+    <nav class="navbar">
+        <div class="logo">
+            <a th:href="@{/main}">Swedish Event Planners</a>
+        </div>
+        <ul class="menu">
+            <label th:text="'Logged in as: ' + ${user}"></label>
+            <li>
+                <form method="post" th:action="@{/logout}">
+                    <a onclick="this.closest('form').submit();return false;" href="#">Logout</a>
+                </form>
+            </li>
+        </ul>
+    </nav>
+</header>
+
+<!-- Manage Users Section -->
+<section class="manage-users">
+    <div class="container">
+        <h1>Manage Users</h1>
+        <table>
+            <thead>
+            <tr>
+                <th>Username</th>
+                <th>Role</th>
+                <th>Active</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="user : ${sepUsers}">
+                <td th:text="${user.username}"></td>
+                <td th:text="${user.role.label}"></td>
+                <td th:text="${user.active}"></td>
+                <td>
+                    <a href="#edit-user" class="btn">Edit</a>
+                    <a th:href="@{'/deleteUser?id=' + ${user.id}}" class="btn" onclick="return confirm('Are you sure you want to delete this user?');">Delete</a>
+                    <a th:if="${user.active}" th:href="@{'/deactivateUser?id=' + ${user.id}}" class="btn">Deactivate</a>
+                    <a th:if="${!user.active}" th:href="@{'/reactivateUser?id=' + ${user.id}}" class="btn">Reactivate</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</section>
+
+<!-- Footer -->
+<footer>
+    <p>© 2024 Swedish Event Planners. All rights reserved.</p>
+</footer>
+</body>
+</html>

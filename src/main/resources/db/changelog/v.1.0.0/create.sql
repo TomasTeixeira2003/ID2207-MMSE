@@ -11,7 +11,8 @@ CREATE TABLE sep_user
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     username VARCHAR(64) NOT NULL,
     hash VARCHAR (256) NOT NULL,
-    role VARCHAR(64) NOT NULL
+    role VARCHAR(64) NOT NULL,
+    active BOOL NOT NULL DEFAULT true
 );
 
 

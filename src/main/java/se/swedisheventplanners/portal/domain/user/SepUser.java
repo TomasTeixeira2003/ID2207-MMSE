@@ -22,6 +22,9 @@ public class SepUser {
     @Column(name = "role")
     private Role role;
 
+    @Column(name = "active")
+    private boolean active;
+
 
 
 }

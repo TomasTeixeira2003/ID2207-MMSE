@@ -1,18 +1,17 @@
 package se.swedisheventplanners.portal.controller;
 
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import se.swedisheventplanners.portal.domain.user.Role;
 import se.swedisheventplanners.portal.domain.user.SepUser;
 import se.swedisheventplanners.portal.model.RoleDto;
@@ -21,6 +20,7 @@ import se.swedisheventplanners.portal.model.user.SepUserDto;
 import se.swedisheventplanners.portal.service.SepUserService;
 import se.swedisheventplanners.portal.service.role.RoleServiceFactory;
 
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
@@ -62,6 +62,45 @@ public class RoutingController {
         sepUserService.createSepUser(sepUser);
         addAuthenticationToModel(model);
         return "main";
+    }
+
+    @PreAuthorize("hasAuthority('ADMINISTRATION_MANAGER')")
+    @GetMapping("/manageUsers")
+    public String viewUsers(Model model) {
+        List<SepUserDto> sepUsers = modelMapper.map(sepUserService.findAll(), new TypeToken<List<SepUserDto>>() {}.getType());
+        addAuthenticationToModel(model);
+        model.addAttribute("sepUsers", sepUsers);
+        return "manage_users";
+    }
+
+    @PreAuthorize("hasAuthority('ADMINISTRATION_MANAGER')")
+    @GetMapping("/deactivateUser")
+    public String deactivateUser(Model model, @RequestParam Long id, HttpServletResponse response) throws IOException {
+        List<SepUserDto> sepUsers = modelMapper.map(sepUserService.deactivateUser(id), new TypeToken<List<SepUserDto>>() {}.getType());
+        addAuthenticationToModel(model);
+        model.addAttribute("sepUsers", sepUsers);
+        response.sendRedirect("/manageUsers");
+        return "manage_users";
+    }
+
+    @PreAuthorize("hasAuthority('ADMINISTRATION_MANAGER')")
+    @GetMapping("/reactivateUser")
+    public String reactivateUser(Model model, @RequestParam Long id,  HttpServletResponse response) throws IOException {
+        List<SepUserDto> sepUsers = modelMapper.map(sepUserService.reactivateUser(id), new TypeToken<List<SepUserDto>>() {}.getType());
+        addAuthenticationToModel(model);
+        model.addAttribute("sepUsers", sepUsers);
+        response.sendRedirect("/manageUsers");
+        return "manage_users";
+    }
+
+    @PreAuthorize("hasAuthority('ADMINISTRATION_MANAGER')")
+    @GetMapping("/deleteUser")
+    public String deleteUser(Model model, @RequestParam Long id, HttpServletResponse response) throws IOException {
+        List<SepUserDto> sepUsers = modelMapper.map(sepUserService.deleteUser(id), new TypeToken<List<SepUserDto>>() {}.getType());
+        addAuthenticationToModel(model);
+        model.addAttribute("sepUsers", sepUsers);
+        response.sendRedirect("/manageUsers");
+        return "manage_users";
     }
 
     private void addAuthenticationToModel(Model model) {
