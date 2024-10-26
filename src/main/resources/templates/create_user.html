@@ -46,7 +46,7 @@
                 <label for="role">Select Role:</label>
                 <select id="role" name="role" required>
                     <option value="" disabled selected>Select your role</option>
-                    <option th:name="role" th:each="role  : ${roles}" th:value="${role.value}" th:text="${role.label}"></option>
+                    <option th:name="role" th:each="role  : ${roles}" th:value="${role}" th:text="${role.label}"></option>
                 </select>
             </div>
             <button type="button" onclick="checkPasswords()" class="btn-submit">Create User</button>

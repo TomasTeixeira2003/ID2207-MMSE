@@ -14,14 +14,12 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import se.swedisheventplanners.portal.domain.user.Role;
 import se.swedisheventplanners.portal.domain.user.SepUser;
-import se.swedisheventplanners.portal.model.RoleDto;
 import se.swedisheventplanners.portal.model.routing.PageLink;
 import se.swedisheventplanners.portal.model.user.SepUserDto;
 import se.swedisheventplanners.portal.service.SepUserService;
 import se.swedisheventplanners.portal.service.role.RoleServiceFactory;
 
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.List;
 
 @Slf4j
@@ -50,7 +48,7 @@ public class RoutingController {
     @GetMapping("/createNewUser")
     public String createNewUser(Model model) {
         addAuthenticationToModel(model);
-        model.addAttribute("roles", Arrays.stream(Role.values()).map(x -> new RoleDto(x.getLabel(), x.name())));
+        model.addAttribute("roles", Role.values());
         return "create_user";
     }
 
@@ -99,6 +97,24 @@ public class RoutingController {
         List<SepUserDto> sepUsers = modelMapper.map(sepUserService.deleteUser(id), new TypeToken<List<SepUserDto>>() {}.getType());
         addAuthenticationToModel(model);
         model.addAttribute("sepUsers", sepUsers);
+        response.sendRedirect("/manageUsers");
+        return "manage_users";
+    }
+
+    @PreAuthorize("hasAuthority('ADMINISTRATION_MANAGER')")
+    @GetMapping("/editUserRole")
+    public String editUserRole(Model model, @RequestParam Long id, HttpServletResponse response) throws IOException {
+        SepUserDto user = modelMapper.map(sepUserService.findById(id), SepUserDto.class);
+        addAuthenticationToModel(model);
+        model.addAttribute("editedUser", user);
+        model.addAttribute("roles", Role.values());
+        return "edit_user_role";
+    }
+
+    @PreAuthorize("hasAuthority('ADMINISTRATION_MANAGER')")
+    @PostMapping("/editUserRole")
+    public String editUserRolePost(@RequestParam Long id, @RequestParam Role role, HttpServletResponse response) throws IOException {
+        sepUserService.editUserRole(id, role);
         response.sendRedirect("/manageUsers");
         return "manage_users";
     }
