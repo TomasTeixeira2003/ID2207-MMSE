@@ -7,7 +7,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import se.swedisheventplanners.portal.domain.user.SepUser;
 import se.swedisheventplanners.portal.domain.user.SepUserDetails;
-import se.swedisheventplanners.portal.repository.SepUserRepository;
+import se.swedisheventplanners.portal.repository.user.SepUserRepository;
 
 import java.util.Collections;
 import java.util.List;

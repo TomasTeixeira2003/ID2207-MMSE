@@ -20,3 +20,19 @@ INSERT INTO sep_user (username, hash, role) VALUES ('bakalis', '$2y$10$43jfmaTXy
 INSERT INTO sep_user (username, hash, role) VALUES ('admin', '$2y$10$43jfmaTXya8yJxXWvHkyV.8t6yqaIaGAEJe.TDUKCY7psO8nvVCzu', 'ADMINISTRATION_MANAGER');
 
 ------------------------------------------------------------------------
+
+
+--changeset Dimitris.Bakalis:1.0.0-2
+
+------------------------------------------------------------------------
+
+CREATE TABLE task
+(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    project VARCHAR(1024) NOT NULL,
+    description TEXT NOT NULL,
+    assignee_id BIGINT NOT NULL,
+    priority VARCHAR(64) NOT NULL
+);
+
+------------------------------------------------------------------------

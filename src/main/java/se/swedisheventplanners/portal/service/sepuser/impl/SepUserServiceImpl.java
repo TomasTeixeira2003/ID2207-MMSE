@@ -6,7 +6,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import se.swedisheventplanners.portal.domain.user.Role;
 import se.swedisheventplanners.portal.domain.user.SepUser;
-import se.swedisheventplanners.portal.repository.SepUserRepository;
+import se.swedisheventplanners.portal.repository.user.SepUserRepository;
 import se.swedisheventplanners.portal.service.SepUserService;
 
 import java.util.List;
@@ -20,6 +20,7 @@ public class SepUserServiceImpl implements SepUserService {
     @Override
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
     public SepUser createSepUser(SepUser sepUser) {
+        sepUser.setActive(true);
         return sepUserRepository.save(sepUser);
     }
 
@@ -69,6 +70,12 @@ public class SepUserServiceImpl implements SepUserService {
         SepUser user = findById(id);
         user.setRole(role);
         return sepUserRepository.save(user);
+    }
+
+    @Override
+    @Transactional(readOnly = true, propagation = Propagation.REQUIRED)
+    public List<SepUser> findByRole(Role subTeamRole) {
+        return sepUserRepository.findByRole(subTeamRole);
     }
 
 }

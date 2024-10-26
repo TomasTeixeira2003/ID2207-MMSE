@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Submit Task - Swedish Event Planners</title>
+    <link rel="stylesheet" th:href="@{/css/main.css}">
+</head>
+<body>
+<!-- Navbar -->
+<header>
+    <nav class="navbar">
+        <div class="logo">
+            <a th:href="@{/main}">Swedish Event Planners</a>
+        </div>
+        <ul class="menu">
+            <label th:text="'Logged in as: ' + ${user}"></label>
+            <li>
+                <form method="post" th:action="@{/logout}">
+                    <a onclick="this.closest('form').submit();return false;" href="#">Logout</a>
+                </form>
+            </li>
+        </ul>
+    </nav>
+</header>
+
+<!-- Task Submission Section -->
+<section class="submit-task">
+    <div class="container">
+        <h1>Production Department</h1>
+        <form th:action="@{/createTask}" method="POST">
+            <div class="form-group">
+                <label for="project">Project Reference:</label>
+                <input type="text" id="project" name="project" required>
+            </div>
+            <div class="form-group">
+                <label for="description">Description:</label>
+                <textarea id="description" name="description" rows="4" required></textarea>
+            </div>
+            <div class="form-group">
+                <label for="assigneeId">Assign To:</label>
+                <select id="assigneeId" name="assigneeId" required>
+                    <option value="" disabled selected>Select a user</option>
+                    <option th:name="assignee" th:each="sepUser  : ${sepUsers}" th:value="${sepUser.id}" th:text="${sepUser.username}"></option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="priority">Priority:</label>
+                <select id="priority" name="priority" required>
+                    <option value="" disabled selected>Select a priority</option>
+                    <option th:name="priority" th:each="priority  : ${priorities}" th:value="${priority}" th:text="${priority.label}"></option>
+                </select>
+            </div>
+            <button type="submit" class="btn-submit">Send Task</button>
+        </form>
+    </div>
+</section>
+
+<!-- Footer -->
+<footer>
+    <p>© 2024 Swedish Event Planners. All rights reserved.</p>
+</footer>
+</body>
+</html>
