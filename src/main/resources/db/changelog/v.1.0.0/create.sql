@@ -16,5 +16,6 @@ CREATE TABLE sep_user
 
 
 INSERT INTO sep_user (username, hash, role) VALUES ('bakalis', '$2y$10$43jfmaTXya8yJxXWvHkyV.8t6yqaIaGAEJe.TDUKCY7psO8nvVCzu', 'SENIOR_CUSTOMER_SUPPORT_OFFICER');
+INSERT INTO sep_user (username, hash, role) VALUES ('admin', '$2y$10$43jfmaTXya8yJxXWvHkyV.8t6yqaIaGAEJe.TDUKCY7psO8nvVCzu', 'ADMINISTRATION_MANAGER');
 
 ------------------------------------------------------------------------
