@@ -78,4 +78,10 @@ public class SepUserServiceImpl implements SepUserService {
         return sepUserRepository.findByRole(subTeamRole);
     }
 
+    @Override
+    @Transactional(readOnly = true, propagation = Propagation.REQUIRED)
+    public SepUser findByUsername(String name) {
+        return sepUserRepository.findByUsername(name).orElseThrow(() -> new IllegalStateException("User not found!"));
+    }
+
 }

@@ -18,7 +18,7 @@ public class ProductionManagerRoleService implements RoleService {
     }
 
     @Override
-    public List<PageLink> getRolePageLinks() {
+    public List<PageLink> getRolePageLinks(Long userId) {
         return List.of(new PageLink("/createTask",
                 "Create a New Task",
                 "Create a New Task",

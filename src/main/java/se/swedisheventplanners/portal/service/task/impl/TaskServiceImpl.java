@@ -68,4 +68,10 @@ public class TaskServiceImpl implements TaskService {
         editedTask.setStatus(originalTask.getStatus());
         return taskRepository.save(editedTask);
     }
+
+    @Override
+    @Transactional(readOnly = true, propagation = Propagation.REQUIRED)
+    public List<Task> findByAssigneeId(Long assigneeId) {
+        return taskRepository.findByAssigneeId(assigneeId);
+    }
 }

@@ -9,6 +9,6 @@ public interface RoleService {
 
     Role getRole();
 
-    List<PageLink> getRolePageLinks();
+    List<PageLink> getRolePageLinks(Long userId);
 
 }

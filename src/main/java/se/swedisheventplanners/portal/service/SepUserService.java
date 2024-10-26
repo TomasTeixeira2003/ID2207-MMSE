@@ -22,4 +22,6 @@ public interface SepUserService {
     SepUser editUserRole(Long id, Role role);
 
     List<SepUser> findByRole(Role subTeamRole);
+
+    SepUser findByUsername(String name);
 }

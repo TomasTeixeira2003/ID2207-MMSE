@@ -10,22 +10,18 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class AdministrationManagerRoleService implements RoleService {
+public class ProductionSubTeamRoleService implements RoleService {
 
     @Override
     public Role getRole() {
-        return Role.ADMINISTRATION_MANAGER;
+        return Role.PRODUCTION_SUB_TEAM;
     }
 
     @Override
     public List<PageLink> getRolePageLinks(Long userId) {
-        return List.of(new PageLink("/createNewUser",
-                "Create a New SEP User",
-                "Create a New SEP User",
-                "Create User"),
-                new PageLink("/manageUsers",
-                "Manage SEP Users",
-                "Check the list of all the registered SEP Users",
-                "View Users"));
+        return List.of(new PageLink("/manageMyTasks?assigneeId=" + userId,
+                "Manage Tasks",
+                "Manage Tasks",
+                "Manage Tasks"));
     }
 }

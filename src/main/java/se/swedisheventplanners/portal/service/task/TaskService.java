@@ -20,4 +20,6 @@ public interface TaskService {
     List<Task> changeTaskAssignee(Long id, Long assigneeId);
 
     Task edit(Task editedTask);
+
+    List<Task> findByAssigneeId(Long assigneeId);
 }

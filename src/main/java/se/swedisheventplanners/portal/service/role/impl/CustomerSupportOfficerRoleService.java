@@ -18,7 +18,7 @@ public class CustomerSupportOfficerRoleService implements RoleService {
     }
 
     @Override
-    public List<PageLink> getRolePageLinks() {
+    public List<PageLink> getRolePageLinks(Long userId) {
         return List.of(new PageLink("/createNewPlanningRequest",
                 "Create a New Event Planning Request",
                 "Start a new Event Planning Request from scratch",

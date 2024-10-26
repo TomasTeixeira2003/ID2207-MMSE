@@ -146,7 +146,7 @@ public class RoutingController {
         return "main";
     }
 
-    @PreAuthorize("hasAnyAuthority('SERVICES_MANAGER', 'PRODUCTION_MANAGER', 'SERVICES_SUB_TEAM', 'PRODUCTION_SUB_TEAM')")
+    @PreAuthorize("hasAnyAuthority('SERVICES_MANAGER', 'PRODUCTION_MANAGER')")
     @GetMapping("/manageTasks")
     public String manageTasks(Model model) throws IOException {
         Map<Long, String> userNames = sepUserService.findAll().stream().collect(Collectors.toMap(SepUser::getId, SepUser::getUsername));
@@ -157,6 +157,21 @@ public class RoutingController {
         }).collect(Collectors.toList());
         model.addAttribute("tasks", tasks);
         addAssigneesAndPrioritiesToModel(model);
+        addAuthenticationToModel(model);
+        return "manage_tasks";
+    }
+
+    @PreAuthorize("hasAnyAuthority('SERVICES_SUB_TEAM', 'PRODUCTION_SUB_TEAM')")
+    @GetMapping("/manageMyTasks")
+    public String manageMyTasks(Model model, @RequestParam Long assigneeId) throws IOException {
+        SepUser sepUser = sepUserService.findById(assigneeId);
+        List<TaskDto> tasks = taskService.findByAssigneeId(assigneeId).stream().map(t -> {
+            TaskDto taskDto = modelMapper.map(t, TaskDto.class);
+            taskDto.setAssigneeName(sepUser.getUsername());
+            return taskDto;
+        }).collect(Collectors.toList());
+        model.addAttribute("tasks", tasks);
+        addPrioritiesToModel(model);
         addAuthenticationToModel(model);
         return "manage_tasks";
     }
@@ -216,9 +231,10 @@ public class RoutingController {
 
     private void addAuthenticationToModel(Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        SepUser sepUser = sepUserService.findByUsername(authentication.getName());
         Role role = Role.valueOf(authentication.getAuthorities().stream()
                 .findAny().orElseThrow(() -> new IllegalStateException("No Role for authenticated user")).getAuthority());
-        List<PageLink> linksForUser = roleServiceFactory.getRoleService(role).getRolePageLinks();
+        List<PageLink> linksForUser = roleServiceFactory.getRoleService(role).getRolePageLinks(sepUser.getId());
         model.addAttribute("user", authentication.getName());
         model.addAttribute("userRole", role);
         model.addAttribute("links", linksForUser);
@@ -235,6 +251,10 @@ public class RoutingController {
         };
         List<SepUserDto> sepUsers = modelMapper.map(sepUserService.findByRole(subTeamRole), new TypeToken<List<SepUserDto>>() {}.getType());
         model.addAttribute("sepUsers", sepUsers);
+        addPrioritiesToModel(model);
+    }
+
+    private void addPrioritiesToModel(Model model) {
         model.addAttribute("priorities", Priority.values());
     }
 
