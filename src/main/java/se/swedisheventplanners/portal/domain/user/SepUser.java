@@ -19,6 +19,7 @@ public class SepUser {
     @Column(name = "hash")
     private String hash;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "role")
     private Role role;
 

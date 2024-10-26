@@ -1,4 +1,4 @@
-package se.swedisheventplanners.portal.service;
+package se.swedisheventplanners.portal.service.sepuser.impl;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -7,7 +7,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import se.swedisheventplanners.portal.domain.user.SepUser;
 import se.swedisheventplanners.portal.domain.user.SepUserDetails;
-import se.swedisheventplanners.portal.repository.UserRepository;
+import se.swedisheventplanners.portal.repository.SepUserRepository;
 
 import java.util.Collections;
 import java.util.List;
@@ -16,9 +16,9 @@ import java.util.List;
 @Service
 public class SepUserDetailsService implements UserDetailsService {
 
-    private final UserRepository userRepository;
+    private final SepUserRepository userRepository;
 
-    public SepUserDetailsService(final UserRepository userRepository) {
+    public SepUserDetailsService(final SepUserRepository userRepository) {
         this.userRepository = userRepository;
     }
 

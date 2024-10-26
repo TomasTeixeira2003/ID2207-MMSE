@@ -35,22 +35,10 @@
 
     <!-- Main Content -->
     <section class="main-content">
-        <div class="content-box">
-            <h2>Create a New Event</h2>
-            <p>Start organizing your upcoming event by filling out all the necessary details.</p>
-            <a href="#create-event" class="btn">Get Started</a>
-        </div>
-
-        <div class="content-box">
-            <h2>Manage Existing Events</h2>
-            <p>View and modify details for your current or upcoming events.</p>
-            <a href="#manage-events" class="btn">Manage Events</a>
-        </div>
-
-        <div class="content-box">
-            <h2>View Reports</h2>
-            <p>Track the performance of your events through detailed reports and analytics.</p>
-            <a href="#reports" class="btn">View Reports</a>
+        <div th:each="page : ${links}" class="content-box">
+            <h2 th:text="${page.name}"></h2>
+            <p th:text="${page.description}"></p>
+            <a th:href="${page.link}" class="btn" th:text="${page.linkText}"></a>
         </div>
     </section>
 
