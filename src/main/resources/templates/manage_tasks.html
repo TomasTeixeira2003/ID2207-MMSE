@@ -56,12 +56,10 @@
                             <option th:name="assignee" th:each="sepUser  : ${sepUsers}" th:value="${sepUser.id}" th:text="${sepUser.username}"></option>
                         </select>
                     </form>
-                    <form>
-                        <select th:if="${userRole.name() == 'PRODUCTION_SUB_TEAM' || userRole.name() == 'SERVICE_SUB_TEAM'}" onchange="changeStatus(this)">
+                    <form id="statusForm" th:action="@{'/changeTaskStatus?id=' + ${task.id}}" method="POST">
+                        <select th:name="status" th:if="${userRole.name() == 'PRODUCTION_SUB_TEAM' || userRole.name() == 'SERVICE_SUB_TEAM'}" onchange="changeStatus(this)">
                             <option value="" disabled selected>Change Status</option>
-                            <option value="In Progress">In Progress</option>
-                            <option value="Completed">Completed</option>
-                            <option value="Pending">Pending</option>
+                            <option th:each="status  : ${statuses}" th:value="${status}" th:text="${status.label}"></option>
                         </select>
                     </form>
                     <form id="priorityForm" th:action="@{'/changeTaskPriority?id=' + ${task.id}}" method="POST">
@@ -93,7 +91,7 @@
     function changeStatus(select) {
         const selectedValue = select.value;
         // Implement logic for changing the status
-        document.getElementById('assigneeForm').submit();
+        document.getElementById('statusForm').submit();
     }
 
     function changePriority(select) {

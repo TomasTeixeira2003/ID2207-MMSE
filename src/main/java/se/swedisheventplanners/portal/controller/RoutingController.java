@@ -172,6 +172,7 @@ public class RoutingController {
         }).collect(Collectors.toList());
         model.addAttribute("tasks", tasks);
         addPrioritiesToModel(model);
+        addStatusesToModel(model);
         addAuthenticationToModel(model);
         return "manage_tasks";
     }
@@ -206,6 +207,18 @@ public class RoutingController {
         addAuthenticationToModel(model);
         addAssigneesAndPrioritiesToModel(model);
         response.sendRedirect("/manageTasks");
+        return "manage_tasks";
+    }
+
+    @PreAuthorize("hasAnyAuthority('SERVICES_SUB_TEAM', 'PRODUCTION_SUB_TEAM')")
+    @PostMapping("/changeTaskStatus")
+    public String changeTaskStatus(Model model, @RequestParam Long id, @RequestParam TaskStatus status, HttpServletResponse response) throws IOException {
+        List<TaskDto> tasks = modelMapper.map(taskService.changeTaskStatus(id, status), new TypeToken<List<TaskDto>>() {}.getType());
+        model.addAttribute("tasks", tasks);
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        SepUser sepUser = sepUserService.findByUsername(authentication.getName());
+        addAuthenticationToModel(model);
+        response.sendRedirect("/manageMyTasks?assigneeId=" + sepUser.getId());
         return "manage_tasks";
     }
 
@@ -252,10 +265,15 @@ public class RoutingController {
         List<SepUserDto> sepUsers = modelMapper.map(sepUserService.findByRole(subTeamRole), new TypeToken<List<SepUserDto>>() {}.getType());
         model.addAttribute("sepUsers", sepUsers);
         addPrioritiesToModel(model);
+        addStatusesToModel(model);
     }
 
     private void addPrioritiesToModel(Model model) {
         model.addAttribute("priorities", Priority.values());
+    }
+
+    private void addStatusesToModel(Model model) {
+        model.addAttribute("statuses", TaskStatus.values());
     }
 
 }

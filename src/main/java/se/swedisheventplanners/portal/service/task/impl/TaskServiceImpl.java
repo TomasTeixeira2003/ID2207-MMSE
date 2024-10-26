@@ -6,6 +6,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import se.swedisheventplanners.portal.domain.task.Priority;
 import se.swedisheventplanners.portal.domain.task.Task;
+import se.swedisheventplanners.portal.domain.task.TaskStatus;
 import se.swedisheventplanners.portal.repository.task.TaskRepository;
 import se.swedisheventplanners.portal.service.task.TaskService;
 
@@ -73,5 +74,14 @@ public class TaskServiceImpl implements TaskService {
     @Transactional(readOnly = true, propagation = Propagation.REQUIRED)
     public List<Task> findByAssigneeId(Long assigneeId) {
         return taskRepository.findByAssigneeId(assigneeId);
+    }
+
+    @Override
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
+    public List<Task> changeTaskStatus(Long id, TaskStatus status) {
+        Task task = findById(id);
+        task.setStatus(status);
+        taskRepository.save(task);
+        return taskRepository.findAll();
     }
 }
