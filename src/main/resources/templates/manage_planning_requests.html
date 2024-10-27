@@ -46,8 +46,8 @@
                 <td th:text="${request.status.label}"></td>
                 <td th:text="${request.priority.label}"></td>
                 <td>
-                    <a th:href="@{'/planningRequest/editRequest?id=' + ${request.id}}" class="btn">Edit</a>
                     <div th:if="${request.status.name() == 'PENDING'}">
+                        <a th:href="@{'/planningRequest/editRequest?id=' + ${request.id}}" class="btn">Edit</a>
                         <a th:if="${userRole.name() == 'SENIOR_CUSTOMER_SUPPORT_OFFICER'
                         || userRole.name() == 'FINANCIAL_MANAGER'
                         || userRole.name() == 'ADMINISTRATION_MANAGER'}" th:href="@{'/planningRequest/rejectRequest?id=' + ${request.id}}" class="btn">Reject Request</a>

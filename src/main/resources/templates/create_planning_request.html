@@ -28,7 +28,7 @@
 <main>
     <div class="form-container">
         <h1>Client Request Details</h1>
-        <form th:action="@{${editedRequest != null ? '/planningRequest/editPlanningRequest?id=' + editedRequest.id : 'createPlanningRequest'}}" method="POST">
+        <form th:action="@{${editedRequest != null ? '/planningRequest/editPlanningRequest?id=' + editedRequest.id : '/planningRequest/createNewPlanningRequest'}}" method="POST">
             <div class="form-group">
                 <label for="clientRecordNumber">Client record number:</label>
                 <input type="text" id="clientRecordNumber" name="clientRecordNumber" th:value="${editedRequest != null ? editedRequest.clientRecordNumber : ''}">
