@@ -5,6 +5,7 @@ import se.swedisheventplanners.portal.domain.planningrequest.Priority;
 import se.swedisheventplanners.portal.domain.recruitmentrequest.ContractType;
 import se.swedisheventplanners.portal.domain.recruitmentrequest.RecruitmentRequestStatus;
 import se.swedisheventplanners.portal.domain.recruitmentrequest.RequestingDepartment;
+import se.swedisheventplanners.portal.domain.user.Role;
 
 import java.io.Serializable;
 
@@ -28,5 +29,7 @@ public class RecruitmentRequestDto implements Serializable {
     private RecruitmentRequestStatus status;
 
     private Priority priority;
+
+    private Role assignedToRole;
 
 }

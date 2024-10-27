@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-import se.swedisheventplanners.portal.domain.task.Priority;
+import se.swedisheventplanners.portal.domain.task.TaskPriority;
 import se.swedisheventplanners.portal.domain.task.Task;
 import se.swedisheventplanners.portal.domain.task.TaskStatus;
 import se.swedisheventplanners.portal.repository.task.TaskRepository;
@@ -46,7 +46,7 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
-    public List<Task> changeTaskPriority(Long id, Priority priority) {
+    public List<Task> changeTaskPriority(Long id, TaskPriority priority) {
         Task task = findById(id);
         task.setPriority(priority);
         taskRepository.save(task);

@@ -84,7 +84,8 @@ CREATE TABLE recruitment_request
     job_description VARCHAR (1024),
     created_by VARCHAR (512),
     status VARCHAR (64),
-    priority VARCHAR (64)
+    priority VARCHAR (64),
+    assigned_to_role VARCHAR (64)
 );
 
 ------------------------------------------------------------------------

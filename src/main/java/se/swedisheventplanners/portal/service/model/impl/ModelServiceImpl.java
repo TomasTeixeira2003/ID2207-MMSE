@@ -7,7 +7,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
-import se.swedisheventplanners.portal.domain.task.Priority;
+import se.swedisheventplanners.portal.domain.planningrequest.Priority;
+import se.swedisheventplanners.portal.domain.task.TaskPriority;
 import se.swedisheventplanners.portal.domain.task.TaskStatus;
 import se.swedisheventplanners.portal.domain.user.Role;
 import se.swedisheventplanners.portal.domain.user.SepUser;
@@ -52,8 +53,13 @@ public class ModelServiceImpl implements ModelService {
         };
         List<SepUserDto> sepUsers = modelMapper.map(sepUserService.findByRole(subTeamRole), new TypeToken<List<SepUserDto>>() {}.getType());
         model.addAttribute("sepUsers", sepUsers);
-        addPrioritiesToModel(model);
+        addTaskPrioritiesToModel(model);
         addStatusesToModel(model);
+    }
+
+    @Override
+    public void addTaskPrioritiesToModel(Model model) {
+        model.addAttribute("priorities", TaskPriority.values());
     }
 
     @Override

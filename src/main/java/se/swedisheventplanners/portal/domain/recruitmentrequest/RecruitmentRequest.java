@@ -3,6 +3,7 @@ package se.swedisheventplanners.portal.domain.recruitmentrequest;
 import jakarta.persistence.*;
 import lombok.Data;
 import se.swedisheventplanners.portal.domain.planningrequest.Priority;
+import se.swedisheventplanners.portal.domain.user.Role;
 
 import java.io.Serializable;
 
@@ -42,5 +43,9 @@ public class RecruitmentRequest implements Serializable {
     @Enumerated(EnumType.STRING)
     @Column(name = "priority")
     private Priority priority;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "assigned_to_role")
+    private Role assignedToRole;
 
 }

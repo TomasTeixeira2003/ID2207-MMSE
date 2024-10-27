@@ -1,7 +1,7 @@
 package se.swedisheventplanners.portal.model.task;
 
 import lombok.Data;
-import se.swedisheventplanners.portal.domain.task.Priority;
+import se.swedisheventplanners.portal.domain.task.TaskPriority;
 import se.swedisheventplanners.portal.domain.task.TaskStatus;
 
 import java.io.Serializable;
@@ -15,6 +15,6 @@ public class TaskDto implements Serializable {
     TaskStatus status;
     Long assigneeId;
     String assigneeName;
-    Priority priority;
+    TaskPriority priority;
 
 }

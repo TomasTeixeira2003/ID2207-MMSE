@@ -1,6 +1,6 @@
 package se.swedisheventplanners.portal.service.task;
 
-import se.swedisheventplanners.portal.domain.task.Priority;
+import se.swedisheventplanners.portal.domain.task.TaskPriority;
 import se.swedisheventplanners.portal.domain.task.Task;
 import se.swedisheventplanners.portal.domain.task.TaskStatus;
 
@@ -16,7 +16,7 @@ public interface TaskService {
 
     List<Task> deleteTask(Long id);
 
-    List<Task> changeTaskPriority(Long id, Priority priority);
+    List<Task> changeTaskPriority(Long id, TaskPriority priority);
 
     List<Task> changeTaskAssignee(Long id, Long assigneeId);
 

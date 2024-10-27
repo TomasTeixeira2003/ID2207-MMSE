@@ -8,6 +8,8 @@ public interface ModelService {
 
     void addAssigneesAndPrioritiesToModel(Model model);
 
+    void addTaskPrioritiesToModel(Model model);
+
     void addPrioritiesToModel(Model model);
 
     void addStatusesToModel(Model model);

@@ -29,6 +29,6 @@ public class Task implements Serializable {
 
     @Column(name = "priority")
     @Enumerated(value = EnumType.STRING)
-    private Priority priority;
+    private TaskPriority priority;
 
 }

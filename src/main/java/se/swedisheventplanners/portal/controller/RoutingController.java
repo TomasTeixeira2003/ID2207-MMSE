@@ -12,7 +12,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import se.swedisheventplanners.portal.domain.task.Priority;
+import se.swedisheventplanners.portal.domain.task.TaskPriority;
 import se.swedisheventplanners.portal.domain.task.Task;
 import se.swedisheventplanners.portal.domain.task.TaskStatus;
 import se.swedisheventplanners.portal.domain.user.Role;
@@ -170,7 +170,7 @@ public class RoutingController {
             return taskDto;
         }).collect(Collectors.toList());
         model.addAttribute("tasks", tasks);
-        modelService.addPrioritiesToModel(model);
+        modelService.addTaskPrioritiesToModel(model);
         modelService.addStatusesToModel(model);
         modelService.addAuthenticationToModel(model);
         return "manage_tasks";
@@ -189,7 +189,7 @@ public class RoutingController {
 
     @PreAuthorize("hasAnyAuthority('SERVICES_MANAGER', 'PRODUCTION_MANAGER')")
     @PostMapping("/changeTaskPriority")
-    public String deleteTask(Model model, @RequestParam Long id, @RequestParam Priority priority, HttpServletResponse response) throws IOException {
+    public String deleteTask(Model model, @RequestParam Long id, @RequestParam TaskPriority priority, HttpServletResponse response) throws IOException {
         List<TaskDto> tasks = modelMapper.map(taskService.changeTaskPriority(id, priority), new TypeToken<List<TaskDto>>() {}.getType());
         model.addAttribute("tasks", tasks);
         modelService.addAuthenticationToModel(model);
