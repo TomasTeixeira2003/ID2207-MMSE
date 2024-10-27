@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Financial Request - Swedish Event Planners</title>
+    <link rel="stylesheet" th:href="@{/css/main.css}">
+</head>
+<body>
+<!-- Navbar -->
+<header>
+    <nav class="navbar">
+        <div class="logo">
+            <a th:href="@{/main}">Swedish Event Planners</a>
+        </div>
+        <ul class="menu">
+            <label th:text="'Logged in as: ' + ${user}"></label>
+            <li>
+                <form method="post" th:action="@{/logout}">
+                    <a onclick="this.closest('form').submit();return false;" href="#">Logout</a>
+                </form>
+            </li>
+        </ul>
+    </nav>
+</header>
+
+<!-- Financial Request Form -->
+<section class="financial-request">
+    <div class="form-container">
+        <h1>Financial Request</h1>
+        <form th:action="@{${editedRequest != null ? '/financialRequest/editRequest?id=' + editedRequest.id : '/financialRequest/createFinancialRequest'}}" method="post">
+            <!-- Requesting Department -->
+            <label>Requesting department:</label>
+            <div class="radio-group">
+                <label><input type="radio" name="requestingDepartment" value="ADMINISTRATION" th:checked="${editedRequest != null && editedRequest.requestingDepartment.name() == 'ADMINISTRATION'}" th:disabled="${userRole.name() == 'FINANCIAL_MANAGER'}">Administration</label>
+                <label><input type="radio" name="requestingDepartment" value="SERVICES" th:checked="${editedRequest != null && editedRequest.requestingDepartment.name() == 'SERVICES'}" th:disabled="${userRole.name() == 'FINANCIAL_MANAGER'}">Services</label>
+                <label><input type="radio" name="requestingDepartment" value="PRODUCTION" th:checked="${editedRequest != null && editedRequest.requestingDepartment.name() == 'PRODUCTION'}" th:disabled="${userRole.name() == 'FINANCIAL_MANAGER'}"> Production</label>
+                <label><input type="radio" name="requestingDepartment" value="FINANCIAL" th:checked="${editedRequest != null && editedRequest.requestingDepartment.name() == 'FINANCIAL'}" th:disabled="${userRole.name() == 'FINANCIAL_MANAGER'}"> Financial</label>
+            </div>
+
+            <!-- Project Reference -->
+            <label for="projectReference">Project reference:</label>
+            <input type="text" id="projectReference" name="projectReference" placeholder="e12488" th:value="${editedRequest != null ? editedRequest.projectReference : ''}" th:readonly="${userRole.name() == 'FINANCIAL_MANAGER'}">
+
+            <!-- Required Amount -->
+            <label for="requiredAmount">Required amount:</label>
+            <input type="text" id="requiredAmount" name="requiredAmount" placeholder="5000 SEK" th:value="${editedRequest != null ? editedRequest.requiredAmount : ''}" th:readonly="${userRole.name() == 'FINANCIAL_MANAGER'}">
+
+            <!-- Reason -->
+            <label for="reason">Reason:</label>
+            <textarea id="reason" name="reason" rows="4" placeholder="Describe the reason for the request..." th:text="${editedRequest != null ? editedRequest.reason : ''}" th:readonly="${userRole.name() == 'FINANCIAL_MANAGER'}"></textarea>
+
+            <!-- Submit Button -->
+            <button type="submit" class="btn">Submit Request</button>
+        </form>
+    </div>
+</section>
+
+<!-- Footer -->
+<footer>
+    <p>© 2024 Swedish Event Planners. All rights reserved.</p>
+</footer>
+</body>
+</html>

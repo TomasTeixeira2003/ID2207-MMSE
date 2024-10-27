@@ -89,3 +89,23 @@ CREATE TABLE recruitment_request
 );
 
 ------------------------------------------------------------------------
+
+
+--changeset Dimitris.Bakalis:1.0.0-5
+
+------------------------------------------------------------------------
+
+CREATE TABLE financial_request
+(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    requesting_department VARCHAR (64),
+    project_reference VARCHAR (512),
+    required_amount VARCHAR (512),
+    reason VARCHAR (1024),
+    created_by VARCHAR (512),
+    status VARCHAR (64),
+    priority VARCHAR (64),
+    assigned_to_role VARCHAR (64)
+);
+
+------------------------------------------------------------------------

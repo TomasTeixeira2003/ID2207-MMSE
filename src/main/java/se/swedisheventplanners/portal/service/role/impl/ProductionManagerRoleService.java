@@ -34,6 +34,10 @@ public class ProductionManagerRoleService implements RoleService {
                 new PageLink("/recruitmentRequest/manageRecruitmentRequests",
                 "Manage Recruitment Requests",
                  "Manage Recruitment Requests",
-                "Manage Recruitment Requests"));
+                "Manage Recruitment Requests"),
+                new PageLink("/financialRequest/createFinancialRequest",
+                "Create Financial Request",
+                "Create Financial Request",
+                "Create Financial Request"));
     }
 }
