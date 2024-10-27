@@ -110,6 +110,13 @@
                 <textarea id="otherNeeds" name="otherNeeds" rows="4" placeholder="Enter any additional requests here..." th:text="${editedRequest != null ? editedRequest.otherNeeds : ''}"></textarea>
             </div>
 
+
+            <h2 th:if="${userRole.name() == 'FINANCIAL_MANAGER'}">Budget Details</h2>
+            <div class="form-group" th:if="${userRole.name() == 'FINANCIAL_MANAGER'}">
+                <label for="budgetDetails">Please specify budget details:</label>
+                <textarea id="budgetDetails" name="budgetDetails" rows="4" th:text="${editedRequest != null ? editedRequest.budgetDetails : ''}"></textarea>
+            </div>
+
             <button type="submit" class="btn-submit">Submit Request</button>
         </form>
     </div>
