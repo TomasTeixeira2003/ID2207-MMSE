@@ -87,4 +87,22 @@ public class RecruitmentRequestController {
         return "manage_recruitment_requests";
     }
 
+    @PreAuthorize("hasAnyAuthority('PRODUCTION_MANAGER', 'SERVICE_MANAGER')")
+    @GetMapping("/editRequest")
+    public String editRequest(Model model, @RequestParam Long id) throws IOException {
+        modelService.addAuthenticationToModel(model);
+        RecruitmentRequestDto recruitmentRequestDto = modelMapper.map(recruitmentRequestService.findById(id), RecruitmentRequestDto.class);
+        model.addAttribute("editedRequest", recruitmentRequestDto);
+        return "create_recruitment_request";
+    }
+
+    @PreAuthorize("hasAnyAuthority('PRODUCTION_MANAGER', 'SERVICE_MANAGER')")
+    @PostMapping("/editRequest")
+    public String editRequestPost(HttpServletResponse response, @RequestParam Long id, @ModelAttribute RecruitmentRequestDto recruitmentRequestDto) throws IOException {
+        RecruitmentRequest recruitmentRequest = modelMapper.map(recruitmentRequestDto, RecruitmentRequest.class);
+        recruitmentRequestService.editRequest(id, recruitmentRequest);
+        response.sendRedirect("/recruitmentRequest/manageRecruitmentRequests");
+        return "create_recruitment_request";
+    }
+
 }

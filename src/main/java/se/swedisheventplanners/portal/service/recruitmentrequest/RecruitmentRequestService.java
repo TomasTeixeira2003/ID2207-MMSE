@@ -19,4 +19,7 @@ public interface RecruitmentRequestService {
     RecruitmentRequest sendRequestToHR(Long id);
 
     void deleteRequest(Long id);
+
+    RecruitmentRequest editRequest(Long id, RecruitmentRequest recruitmentRequest);
+
 }

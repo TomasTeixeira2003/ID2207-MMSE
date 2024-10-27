@@ -60,4 +60,16 @@ public class RecruitmentRequestServiceImpl implements RecruitmentRequestService 
     public void deleteRequest(Long id) {
         recruitmentRequestRepository.deleteById(id);
     }
+
+    @Override
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
+    public RecruitmentRequest editRequest(Long id, RecruitmentRequest recruitmentRequest) {
+        RecruitmentRequest originalRecruitmentRequest = findById(id);
+        recruitmentRequest.setId(originalRecruitmentRequest.getId());
+        recruitmentRequest.setStatus(originalRecruitmentRequest.getStatus());
+        recruitmentRequest.setPriority(originalRecruitmentRequest.getPriority());
+        recruitmentRequest.setCreatedBy(originalRecruitmentRequest.getCreatedBy());
+        recruitmentRequest.setAssignedToRole(originalRecruitmentRequest.getAssignedToRole());
+        return recruitmentRequestRepository.save(recruitmentRequest);
+    }
 }
