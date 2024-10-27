@@ -51,4 +51,6 @@ public class EventPlanningRequestDto implements Serializable {
 
     private Role assignedToRole;
 
+    private String budgetDetails;
+
 }

@@ -76,4 +76,7 @@ public class EventPlanningRequest implements Serializable {
     @Column(name = "assigned_to_role")
     private Role assignedToRole;
 
+    @Column(name = "budget_details")
+    private String budgetDetails;
+
 }

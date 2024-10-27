@@ -15,4 +15,15 @@ public interface EventPlanningRequestService {
     List<EventPlanningRequest> findByAssignedToRole(Role role);
 
     EventPlanningRequest sendRequest(Long id, Role assignedToRole);
+
+    EventPlanningRequest rejectRequest(Long id);
+
+    EventPlanningRequest approveRequest(Long id);
+
+    EventPlanningRequest closeRequest(Long id);
+
+    EventPlanningRequest archiveRequest(Long id);
+
+    EventPlanningRequest editRequest(Long id, EventPlanningRequest eventPlanningRequest);
+
 }

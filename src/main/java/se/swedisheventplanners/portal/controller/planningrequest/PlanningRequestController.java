@@ -62,4 +62,54 @@ public class PlanningRequestController {
         httpServletResponse.sendRedirect("/planningRequest/managePlanningRequests");
         return "manage_planning_requests";
     }
+
+    @PreAuthorize("hasAnyAuthority('SENIOR_CUSTOMER_SUPPORT_OFFICER', 'FINANCIAL_MANAGER', 'ADMINISTRATION_MANAGER')")
+    @GetMapping("/rejectRequest")
+    public String rejectRequest(@RequestParam Long id, HttpServletResponse httpServletResponse) throws IOException {
+        eventPlanningRequestService.rejectRequest(id);
+        httpServletResponse.sendRedirect("/planningRequest/managePlanningRequests");
+        return "manage_planning_requests";
+    }
+
+    @PreAuthorize("hasAuthority('ADMINISTRATION_MANAGER')")
+    @GetMapping("/approveRequest")
+    public String approveRequest(@RequestParam Long id, HttpServletResponse httpServletResponse) throws IOException {
+        eventPlanningRequestService.approveRequest(id);
+        httpServletResponse.sendRedirect("/planningRequest/managePlanningRequests");
+        return "manage_planning_requests";
+    }
+
+    @PreAuthorize("hasAuthority('SENIOR_CUSTOMER_SUPPORT_OFFICER')")
+    @GetMapping("/closeRequest")
+    public String closeRequest(@RequestParam Long id, HttpServletResponse httpServletResponse) throws IOException {
+        eventPlanningRequestService.closeRequest(id);
+        httpServletResponse.sendRedirect("/planningRequest/managePlanningRequests");
+        return "manage_planning_requests";
+    }
+
+    @PreAuthorize("hasAuthority('SENIOR_CUSTOMER_SUPPORT_OFFICER')")
+    @GetMapping("/archiveRequest")
+    public String archiveRequest(@RequestParam Long id, HttpServletResponse httpServletResponse) throws IOException {
+        eventPlanningRequestService.archiveRequest(id);
+        httpServletResponse.sendRedirect("/planningRequest/managePlanningRequests");
+        return "manage_planning_requests";
+    }
+
+    @PreAuthorize("hasAnyAuthority('CUSTOMER_SUPPORT_OFFICER', 'SENIOR_CUSTOMER_SUPPORT_OFFICER', 'FINANCIAL_MANAGER', 'ADMINISTRATION_MANAGER')")
+    @GetMapping("/editRequest")
+    public String editRequest(@RequestParam Long id, Model model) throws IOException {
+        modelService.addAuthenticationToModel(model);
+        EventPlanningRequestDto eventPlanningRequestDto = modelMapper.map(eventPlanningRequestService.findById(id), EventPlanningRequestDto.class);
+        model.addAttribute("editedRequest", eventPlanningRequestDto);
+        return "create_planning_request";
+    }
+
+    @PreAuthorize("hasAnyAuthority('CUSTOMER_SUPPORT_OFFICER', 'SENIOR_CUSTOMER_SUPPORT_OFFICER', 'FINANCIAL_MANAGER', 'ADMINISTRATION_MANAGER')")
+    @PostMapping("/editPlanningRequest")
+    public String editRequest(@RequestParam Long id, @ModelAttribute EventPlanningRequestDto eventPlanningRequestDto, HttpServletResponse response) throws IOException {
+        EventPlanningRequest eventPlanningRequest = modelMapper.map(eventPlanningRequestDto, EventPlanningRequest.class);
+        eventPlanningRequestService.editRequest(id, eventPlanningRequest);
+        response.sendRedirect("/planningRequest/managePlanningRequests");
+        return "manage_planning_requests";
+    }
 }

@@ -1,6 +1,8 @@
 package se.swedisheventplanners.portal.service.planningrequest.impl;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -46,6 +48,57 @@ public class EventPlanningRequestServiceImpl implements EventPlanningRequestServ
     public EventPlanningRequest sendRequest(Long id, Role assignedToRole) {
         EventPlanningRequest eventPlanningRequest = findById(id);
         eventPlanningRequest.setAssignedToRole(assignedToRole);
+        return eventPlanningRequestRepository.save(eventPlanningRequest);
+    }
+
+    @Override
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
+    public EventPlanningRequest rejectRequest(Long id) {
+        EventPlanningRequest eventPlanningRequest = findById(id);
+        eventPlanningRequest.setStatus(EventPlanningRequestStatus.REJECTED);
+        return eventPlanningRequestRepository.save(eventPlanningRequest);
+    }
+
+    @Override
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
+    public EventPlanningRequest approveRequest(Long id) {
+        EventPlanningRequest eventPlanningRequest = findById(id);
+        eventPlanningRequest.setStatus(EventPlanningRequestStatus.IN_PROGRESS);
+        eventPlanningRequest.setAssignedToRole(Role.SENIOR_CUSTOMER_SUPPORT_OFFICER);
+        return eventPlanningRequestRepository.save(eventPlanningRequest);
+    }
+
+    @Override
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
+    public EventPlanningRequest closeRequest(Long id) {
+        EventPlanningRequest eventPlanningRequest = findById(id);
+        eventPlanningRequest.setStatus(EventPlanningRequestStatus.CLOSED);
+        return eventPlanningRequestRepository.save(eventPlanningRequest);
+    }
+
+    @Override
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
+    public EventPlanningRequest archiveRequest(Long id) {
+        EventPlanningRequest eventPlanningRequest = findById(id);
+        eventPlanningRequest.setStatus(EventPlanningRequestStatus.ARCHIVED);
+        return eventPlanningRequestRepository.save(eventPlanningRequest);
+    }
+
+    @Override
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
+    public EventPlanningRequest editRequest(Long id, EventPlanningRequest eventPlanningRequest) {
+        EventPlanningRequest originalRequest = findById(id);
+        eventPlanningRequest.setId(id);
+        eventPlanningRequest.setStatus(originalRequest.getStatus());
+        eventPlanningRequest.setRequestedBy(originalRequest.getRequestedBy());
+        eventPlanningRequest.setPriority(originalRequest.getPriority());
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Role role = Role.valueOf(authentication.getAuthorities().stream()
+                .findAny().orElseThrow(() -> new IllegalStateException("No Role for authenticated user")).getAuthority());
+        if (!Role.FINANCIAL_MANAGER.equals(role)) {
+            eventPlanningRequest.setBudgetDetails(originalRequest.getBudgetDetails());
+        }
+        eventPlanningRequest.setAssignedToRole(originalRequest.getAssignedToRole());
         return eventPlanningRequestRepository.save(eventPlanningRequest);
     }
 }

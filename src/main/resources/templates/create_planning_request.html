@@ -28,86 +28,86 @@
 <main>
     <div class="form-container">
         <h1>Client Request Details</h1>
-        <form th:action="@{/planningRequest/createNewPlanningRequest}" method="POST">
+        <form th:action="@{${editedRequest != null ? '/planningRequest/editPlanningRequest?id=' + editedRequest.id : 'createPlanningRequest'}}" method="POST">
             <div class="form-group">
                 <label for="clientRecordNumber">Client record number:</label>
-                <input type="text" id="clientRecordNumber" name="clientRecordNumber">
+                <input type="text" id="clientRecordNumber" name="clientRecordNumber" th:value="${editedRequest != null ? editedRequest.clientRecordNumber : ''}">
             </div>
 
             <div class="form-group">
                 <label for="clientName">Client name:</label>
-                <input type="text" id="clientName" name="clientName">
+                <input type="text" id="clientName" name="clientName" th:value="${editedRequest != null ? editedRequest.clientName : ''}">
             </div>
 
             <div class="form-group">
                 <label for="eventType">Event type:</label>
-                <input type="text" id="eventType" name="eventType">
+                <input type="text" id="eventType" name="eventType" th:value="${editedRequest != null ? editedRequest.eventType : ''}">
             </div>
 
             <div class="form-group">
                 <label for="description">Description:</label>
-                <input type="text" id="description" name="description">
+                <input type="text" id="description" name="description" th:value="${editedRequest != null ? editedRequest.description : ''}">
             </div>
 
             <div class="form-dates">
                 <div class="form-group">
                     <label for="eventStart">From:</label>
-                    <input type="date" id="eventStart" name="eventStart">
+                    <input type="date" id="eventStart" name="eventStart" th:value="${editedRequest != null ? editedRequest.eventStart : ''}">
                 </div>
 
                 <div class="form-group">
                     <label for="eventEnd">To:</label>
-                    <input type="date" id="eventEnd" name="eventEnd">
+                    <input type="date" id="eventEnd" name="eventEnd" th:value="${editedRequest != null ? editedRequest.eventEnd : ''}">
                 </div>
             </div>
 
             <div class="form-group">
                 <label for="numberOfAttendants">Expected Number:</label>
-                <input type="number" id="numberOfAttendants" name="numberOfAttendants">
+                <input type="number" id="numberOfAttendants" name="numberOfAttendants" th:value="${editedRequest != null ? editedRequest.numberOfAttendants : ''}">
             </div>
 
             <div class="form-group">
                 <label for="plannedBudget">Planned Budget:</label>
-                <input type="text" id="plannedBudget" name="plannedBudget">
+                <input type="text" id="plannedBudget" name="plannedBudget" th:value="${editedRequest != null ? editedRequest.plannedBudget : ''}">
             </div>
 
             <h2>Decorations</h2>
             <div class="form-group">
                 <label for="decorations">Please specify decoration requirements:</label>
-                <textarea id="decorations" name="decorations" rows="4"></textarea>
+                <textarea id="decorations" name="decorations" rows="4" th:text="${editedRequest != null ? editedRequest.decorations : ''}"></textarea>
             </div>
 
             <h2>Food/Drinks</h2>
             <div class="form-group">
                 <label for="foodAndDrinks">Please specify food and drinks requirements:</label>
-                <textarea id="foodAndDrinks" name="foodAndDrinks" rows="4"></textarea>
+                <textarea id="foodAndDrinks" name="foodAndDrinks" rows="4" th:text="${editedRequest != null ? editedRequest.foodAndDrinks : ''}"></textarea>
             </div>
 
             <h2>Music</h2>
             <div class="form-group">
                 <label for="music">Please specify music requirements:</label>
-                <textarea id="music" name="music" rows="4"></textarea>
+                <textarea id="music" name="music" rows="4" th:text="${editedRequest != null ? editedRequest.music : ''}"></textarea>
             </div>
 
             <h2>Other Requests</h2>
             <div class="form-group">
                 <label for="photos">Filming/Photos</label>
-                <input type="text" id="photos" name="photos">
+                <input type="text" id="photos" name="photos" th:value="${editedRequest != null ? editedRequest.photos : ''}">
             </div>
             <div class="form-group">
                 <label for="posters">Posters/Art Work</label>
-                <input type="text" id="posters" name="posters">
+                <input type="text" id="posters" name="posters" th:value="${editedRequest != null ? editedRequest.posters : ''}">
             </div>
 
             <h2>Computer-Related Issues</h2>
             <div class="form-group">
                 <label for="computerRelated">Client will send us electronically the material</label>
-                <textarea id="computerRelated" name="computerRelated" rows="4"></textarea>
+                <textarea id="computerRelated" name="computerRelated" rows="4" th:text="${editedRequest != null ? editedRequest.computerRelated : ''}"></textarea>
             </div>
 
             <div class="form-group">
                 <label for="otherNeeds">Other needs:</label>
-                <textarea id="otherNeeds" name="otherNeeds" rows="4" placeholder="Enter any additional requests here..."></textarea>
+                <textarea id="otherNeeds" name="otherNeeds" rows="4" placeholder="Enter any additional requests here..." th:text="${editedRequest != null ? editedRequest.otherNeeds : ''}"></textarea>
             </div>
 
             <button type="submit" class="btn-submit">Submit Request</button>
