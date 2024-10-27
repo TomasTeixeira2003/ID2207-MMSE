@@ -22,6 +22,10 @@ public class FinancialManagerRoleService implements RoleService {
         return List.of(new PageLink("/planningRequest/managePlanningRequests",
                 "View Planning Requests",
                 "View Planning Requests",
-                "View Planning Requests"));
+                "View Planning Requests"),
+                new PageLink("/financialRequest/manageFinancialRequests",
+                        "Manage Financial Requests",
+                        "Manage Financial Requests",
+                        "Manage Financial Requests"));
     }
 }

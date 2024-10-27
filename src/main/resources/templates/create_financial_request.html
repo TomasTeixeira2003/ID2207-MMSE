@@ -52,7 +52,10 @@
             <textarea id="reason" name="reason" rows="4" placeholder="Describe the reason for the request..." th:text="${editedRequest != null ? editedRequest.reason : ''}" th:readonly="${userRole.name() == 'FINANCIAL_MANAGER'}"></textarea>
 
             <!-- Submit Button -->
-            <button type="submit" class="btn">Submit Request</button>
+            <button type="submit" class="btn-submit" th:if="${userRole.name() != 'FINANCIAL_MANAGER'}">Submit Request</button>
+            <br/>
+            <a class="btn" th:href="@{/financialRequest/manageFinancialRequests}" th:if="${userRole.name() == 'FINANCIAL_MANAGER'}">Back to Financial Requests Management</a>
+
         </form>
     </div>
 </section>

@@ -111,7 +111,7 @@ public class RecruitmentRequestController {
         RecruitmentRequest recruitmentRequest = modelMapper.map(recruitmentRequestDto, RecruitmentRequest.class);
         recruitmentRequestService.editRequest(id, recruitmentRequest);
         response.sendRedirect("/recruitmentRequest/manageRecruitmentRequests");
-        return "create_recruitment_request";
+        return "manage_recruitment_requests";
     }
 
     @PreAuthorize("hasAnyAuthority('HR_MANAGER')")
