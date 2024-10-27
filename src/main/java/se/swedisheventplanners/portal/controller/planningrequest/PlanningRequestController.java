@@ -16,6 +16,7 @@ import se.swedisheventplanners.portal.service.model.ModelService;
 import se.swedisheventplanners.portal.service.planningrequest.EventPlanningRequestService;
 
 import java.io.IOException;
+import java.security.Principal;
 
 @Controller
 @RequestMapping("/planningRequest")
@@ -35,8 +36,9 @@ public class PlanningRequestController {
 
     @PreAuthorize("hasAuthority('CUSTOMER_SUPPORT_OFFICER')")
     @PostMapping("/createNewPlanningRequest")
-    public String createNewPlanningRequestPost(Model model, @ModelAttribute EventPlanningRequestDto eventPlanningRequestDto, HttpServletResponse httpServletResponse) throws IOException {
+    public String createNewPlanningRequestPost(Model model, @ModelAttribute EventPlanningRequestDto eventPlanningRequestDto, HttpServletResponse httpServletResponse, Principal principal) throws IOException {
         EventPlanningRequest eventPlanningRequest = modelMapper.map(eventPlanningRequestDto, EventPlanningRequest.class);
+        eventPlanningRequest.setRequestedBy(principal.getName());
         eventPlanningRequestService.save(eventPlanningRequest);
         httpServletResponse.sendRedirect("/main");
         return "main";

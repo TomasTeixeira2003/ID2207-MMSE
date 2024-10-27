@@ -1,6 +1,9 @@
 package se.swedisheventplanners.portal.model.planningrequest;
 
 import lombok.Data;
+import se.swedisheventplanners.portal.domain.planningrequest.EventPlanningRequestStatus;
+import se.swedisheventplanners.portal.domain.planningrequest.EventRequestPlanningPriority;
+import se.swedisheventplanners.portal.domain.user.Role;
 
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -39,5 +42,13 @@ public class EventPlanningRequestDto implements Serializable {
     private String computerRelated;
 
     private String otherNeeds;
+
+    private EventPlanningRequestStatus status;
+
+    private EventRequestPlanningPriority priority;
+
+    private String requestedBy;
+
+    private Role assignedToRole;
 
 }

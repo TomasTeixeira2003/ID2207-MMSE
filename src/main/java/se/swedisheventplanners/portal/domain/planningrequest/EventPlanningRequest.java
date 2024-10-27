@@ -2,6 +2,7 @@ package se.swedisheventplanners.portal.domain.planningrequest;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import se.swedisheventplanners.portal.domain.user.Role;
 
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -59,5 +60,20 @@ public class EventPlanningRequest implements Serializable {
 
     @Column(name = "other_needs")
     private String otherNeeds;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status")
+    private EventPlanningRequestStatus status;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "priority")
+    private EventRequestPlanningPriority priority;
+
+    @Column(name = "requested_by")
+    private String requestedBy;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "assigned_to_role")
+    private Role assignedToRole;
 
 }

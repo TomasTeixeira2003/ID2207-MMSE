@@ -60,7 +60,11 @@ CREATE TABLE event_planning_request
     photos TEXT,
     posters TEXT,
     computer_related TEXT,
-    other_needs TEXT
+    other_needs TEXT,
+    status VARCHAR (64),
+    requested_by VARCHAR (512),
+    priority VARCHAR (256),
+    assigned_to_role VARCHAR (256)
 );
 
 ------------------------------------------------------------------------
