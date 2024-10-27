@@ -5,7 +5,7 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public enum EventRequestPlanningPriority {
+public enum Priority {
 
     HIGH("High"),
     MEDIUM("Medium"),

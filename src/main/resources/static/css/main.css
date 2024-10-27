@@ -445,3 +445,28 @@ th {
     display: inline-block;
     cursor: pointer; /* Change cursor to pointer for buttons */
 }
+
+/* Form Container with Increased Width */
+.recruitment-request {
+    padding: 40px 20px;
+    display: flex;
+    justify-content: center;
+}
+
+.radio-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.radio-group label {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 16px;
+}
+
+input[type="radio"] {
+    margin-right: 5px;
+}

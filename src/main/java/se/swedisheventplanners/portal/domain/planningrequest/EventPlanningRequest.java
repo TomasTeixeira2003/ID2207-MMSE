@@ -67,7 +67,7 @@ public class EventPlanningRequest implements Serializable {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "priority")
-    private EventRequestPlanningPriority priority;
+    private Priority priority;
 
     @Column(name = "requested_by")
     private String requestedBy;

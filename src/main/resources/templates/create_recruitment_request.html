@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Recruitment Request - Swedish Event Planners</title>
+    <link rel="stylesheet" th:href="@{/css/main.css}">
+</head>
+<body>
+<!-- Navbar -->
+<header>
+    <nav class="navbar">
+        <div class="logo">
+            <a th:href="@{/main}">Swedish Event Planners</a>
+        </div>
+        <ul class="menu">
+            <label th:text="'Logged in as: ' + ${user}"></label>
+            <li>
+                <form method="post" th:action="@{/logout}">
+                    <a onclick="this.closest('form').submit();return false;" href="#">Logout</a>
+                </form>
+            </li>
+        </ul>
+    </nav>
+</header>
+
+<!-- Recruitment Request Form -->
+<section class="recruitment-request">
+    <div class="form-container">
+        <h1>Recruitment Request</h1>
+        <form th:action="@{/recruitmentRequest/createRecruitmentRequest}" method="post">
+            <!-- Contract Type -->
+            <label>Contract type:</label>
+            <div class="radio-group">
+                <label><input type="radio" name="contractType" value="FULL_TIME"> Full time</label>
+                <label><input type="radio" name="contractType" value="PART_TIME"> Part time</label>
+            </div>
+
+            <!-- Requesting Department -->
+            <label>Requesting department:</label>
+            <div class="radio-group">
+                <label><input type="radio" name="requestingDepartment" value="ADMINISTRATION">Administration</label>
+                <label><input type="radio" name="requestingDepartment" value="SERVICES">Services</label>
+                <label><input type="radio" name="requestingDepartment" value="PRODUCTION"> Production</label>
+                <label><input type="radio" name="requestingDepartment" value="FINANCIAL"> Financial</label>
+            </div>
+
+            <!-- Years of Experience -->
+            <label for="experience">Years of experience:</label>
+            <input type="text" id="experience" name="experience" placeholder="3 years minimum">
+
+            <!-- Job Title -->
+            <label for="jobTitle">Job title:</label>
+            <input type="text" id="jobTitle" name="jobTitle" placeholder="Graphic Designer">
+
+            <!-- Job Description -->
+            <label for="jobDescription">Job description:</label>
+            <textarea id="jobDescription" name="jobDescription" rows="4" placeholder="Describe the job details here..."></textarea>
+
+            <!-- Submit Button -->
+            <button type="submit" class="btn">Submit Request</button>
+        </form>
+    </div>
+</section>
+
+<!-- Footer -->
+<footer>
+    <p>© 2024 Swedish Event Planners. All rights reserved.</p>
+</footer>
+</body>
+</html>

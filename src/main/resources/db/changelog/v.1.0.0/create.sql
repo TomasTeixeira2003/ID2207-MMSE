@@ -68,3 +68,23 @@ CREATE TABLE event_planning_request
 );
 
 ------------------------------------------------------------------------
+
+
+--changeset Dimitris.Bakalis:1.0.0-4
+
+------------------------------------------------------------------------
+
+CREATE TABLE recruitment_request
+(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    contract_type VARCHAR (64),
+    requesting_department VARCHAR (64),
+    experience VARCHAR (512),
+    job_title VARCHAR (512),
+    job_description VARCHAR (1024),
+    created_by VARCHAR (512),
+    status VARCHAR (64),
+    priority VARCHAR (64)
+);
+
+------------------------------------------------------------------------
