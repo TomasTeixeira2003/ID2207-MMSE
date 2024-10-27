@@ -22,6 +22,10 @@ public class CustomerSupportOfficerRoleService implements RoleService {
         return List.of(new PageLink("/planningRequest/createNewPlanningRequest",
                 "Create a New Event Planning Request",
                 "Start a new Event Planning Request from scratch",
-                "Create Event Planning Request"));
+                "Create Event Planning Request"),
+                new PageLink("/planningRequest/managePlanningRequests",
+                "View Planning Requests",
+                "View Planning Requests",
+                "View Planning Requests"));
     }
 }

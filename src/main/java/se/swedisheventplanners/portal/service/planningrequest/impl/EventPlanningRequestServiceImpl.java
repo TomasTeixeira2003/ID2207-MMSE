@@ -11,6 +11,8 @@ import se.swedisheventplanners.portal.domain.user.Role;
 import se.swedisheventplanners.portal.repository.planningrequest.EventPlanningRequestRepository;
 import se.swedisheventplanners.portal.service.planningrequest.EventPlanningRequestService;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class EventPlanningRequestServiceImpl implements EventPlanningRequestService {
@@ -24,5 +26,11 @@ public class EventPlanningRequestServiceImpl implements EventPlanningRequestServ
         eventPlanningRequest.setPriority(EventRequestPlanningPriority.LOW);
         eventPlanningRequest.setAssignedToRole(Role.CUSTOMER_SUPPORT_OFFICER);
         return eventPlanningRequestRepository.save(eventPlanningRequest);
+    }
+
+    @Override
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
+    public List<EventPlanningRequest> findByAssignedToRole(Role role) {
+        return eventPlanningRequestRepository.findByAssignedToRole(role);
     }
 }
