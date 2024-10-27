@@ -47,14 +47,14 @@
                 <td th:text="${request.priority.label}"></td>
                 <td>
                     <div th:if="${request.status.name() == 'OPEN'}">
-                        <a th:if="${userRole.name() == 'SERVICE_MANAGER' || userRole.name() == 'PRODUCTION_MANAGER'}" th:href="@{'/financialRequest/editRequest?id=' + ${request.id}}" class="btn">Edit</a>
-                        <a th:if="${userRole.name() == 'SERVICE_MANAGER' || userRole.name() == 'PRODUCTION_MANAGER'}" th:href="@{'/financialRequest/sendRequestToFinancialManager?id=' + ${request.id}}" class="btn">Send to Financial Manager</a>
-                        <a th:if="${userRole.name() == 'SERVICE_MANAGER' || userRole.name() == 'PRODUCTION_MANAGER'}" th:href="@{'/financialRequest/deleteRequest?id=' + ${request.id}}" class="btn">Delete Request</a>
+                        <a th:if="${userRole.name() == 'SERVICES_MANAGER' || userRole.name() == 'PRODUCTION_MANAGER'}" th:href="@{'/financialRequest/editRequest?id=' + ${request.id}}" class="btn">Edit</a>
+                        <a th:if="${userRole.name() == 'SERVICES_MANAGER' || userRole.name() == 'PRODUCTION_MANAGER'}" th:href="@{'/financialRequest/sendRequestToFinancialManager?id=' + ${request.id}}" class="btn">Send to Financial Manager</a>
+                        <a th:if="${userRole.name() == 'SERVICES_MANAGER' || userRole.name() == 'PRODUCTION_MANAGER'}" th:href="@{'/financialRequest/deleteRequest?id=' + ${request.id}}" class="btn">Delete Request</a>
                         <a th:if="${userRole.name() == 'FINANCIAL_MANAGER'}" th:href="@{'/financialRequest/viewRequest?id=' + ${request.id}}" class="btn">View Request</a>
                         <a th:if="${userRole.name() == 'FINANCIAL_MANAGER'}" th:href="@{'/financialRequest/approveRequest?id=' + ${request.id}}" class="btn">Approve Request</a>
                         <a th:if="${userRole.name() == 'FINANCIAL_MANAGER'}" th:href="@{'/financialRequest/rejectRequest?id=' + ${request.id}}" class="btn">Reject Request</a>
                         <form th:action="@{'/financialRequest/changePriority?id=' + ${request.id}}" method="POST">
-                            <select th:name="priority" th:if="${userRole.name() == 'PRODUCTION_MANAGER' || userRole.name() == 'SERVICE_MANAGER'}" onchange="this.closest('form').submit();return false;">
+                            <select th:name="priority" th:if="${userRole.name() == 'PRODUCTION_MANAGER' || userRole.name() == 'SERVICES_MANAGER'}" onchange="this.closest('form').submit();return false;">
                                 <option value="" disabled selected>Select a priority</option>
                                 <option th:each="priority  : ${priorities}" th:value="${priority}" th:text="${priority.label}"></option>
                             </select>

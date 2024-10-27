@@ -48,10 +48,10 @@
                 <td th:text="${task.status.label}"></td>
                 <td th:text="${task.priority.label}"></td>
                 <td>
-                    <a th:if="${userRole.name() == 'PRODUCTION_MANAGER' || userRole.name() == 'SERVICE_MANAGER'}" th:href="@{'/editTask?id=' + ${task.id}}" class="btn">Edit</a>
+                    <a th:if="${userRole.name() == 'PRODUCTION_MANAGER' || userRole.name() == 'SERVICES_MANAGER'}" th:href="@{'/editTask?id=' + ${task.id}}" class="btn">Edit</a>
                     <a th:if="${userRole.name() == 'PRODUCTION_SUB_TEAM' || userRole.name() == 'SERVICE_SUB_TEAM'}" href="#new-resource-request" class="btn">New Resource Request</a>
                     <form id="assigneeForm" th:action="@{'/changeTaskAssignee?id=' + ${task.id}}" method="POST">
-                        <select th:name="assigneeId" th:if="${userRole.name() == 'PRODUCTION_MANAGER' || userRole.name() == 'SERVICE_MANAGER'}" onchange="changeAssignee(this)">
+                        <select th:name="assigneeId" th:if="${userRole.name() == 'PRODUCTION_MANAGER' || userRole.name() == 'SERVICES_MANAGER'}" onchange="changeAssignee(this)">
                             <option value="" disabled selected>Select a user</option>
                             <option th:name="assignee" th:each="sepUser  : ${sepUsers}" th:value="${sepUser.id}" th:text="${sepUser.username}"></option>
                         </select>
@@ -63,12 +63,12 @@
                         </select>
                     </form>
                     <form id="priorityForm" th:action="@{'/changeTaskPriority?id=' + ${task.id}}" method="POST">
-                        <select th:name="priority" th:if="${userRole.name() == 'PRODUCTION_MANAGER' || userRole.name() == 'SERVICE_MANAGER'}" onchange="changePriority(this)">
+                        <select th:name="priority" th:if="${userRole.name() == 'PRODUCTION_MANAGER' || userRole.name() == 'SERVICES_MANAGER'}" onchange="changePriority(this)">
                             <option value="" disabled selected>Select a priority</option>
                             <option th:each="priority  : ${priorities}" th:value="${priority}" th:text="${priority.label}"></option>
                         </select>
                     </form>
-                    <a th:if="${userRole.name() == 'PRODUCTION_MANAGER' || userRole.name() == 'SERVICE_MANAGER'}"  th:href="@{'/deleteTask?id=' + ${task.id}}" class="btn" onclick="return confirm('Are you sure you want to delete this task?');">Delete</a>
+                    <a th:if="${userRole.name() == 'PRODUCTION_MANAGER' || userRole.name() == 'SERVICES_MANAGER'}"  th:href="@{'/deleteTask?id=' + ${task.id}}" class="btn" onclick="return confirm('Are you sure you want to delete this task?');">Delete</a>
                 </td>
             </tr>
             </tbody>
