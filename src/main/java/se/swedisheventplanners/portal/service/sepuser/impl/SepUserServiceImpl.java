@@ -81,7 +81,7 @@ public class SepUserServiceImpl implements SepUserService {
     @Override
     @Transactional(readOnly = true, propagation = Propagation.REQUIRED)
     public SepUser findByUsername(String name) {
-        return sepUserRepository.findByUsername(name).orElseThrow(() -> new IllegalStateException("User not found!"));
+        return sepUserRepository.findByUsernameIgnoreCase(name);
     }
 
 }

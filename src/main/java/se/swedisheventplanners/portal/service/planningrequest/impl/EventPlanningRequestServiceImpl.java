@@ -29,8 +29,23 @@ public class EventPlanningRequestServiceImpl implements EventPlanningRequestServ
     }
 
     @Override
+    @Transactional(readOnly = true, propagation = Propagation.REQUIRED)
+    public EventPlanningRequest findById(Long id) {
+        return eventPlanningRequestRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("No event planning request found with id: " + id));
+    }
+
+    @Override
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
     public List<EventPlanningRequest> findByAssignedToRole(Role role) {
         return eventPlanningRequestRepository.findByAssignedToRole(role);
+    }
+
+    @Override
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
+    public EventPlanningRequest sendRequest(Long id, Role assignedToRole) {
+        EventPlanningRequest eventPlanningRequest = findById(id);
+        eventPlanningRequest.setAssignedToRole(assignedToRole);
+        return eventPlanningRequestRepository.save(eventPlanningRequest);
     }
 }

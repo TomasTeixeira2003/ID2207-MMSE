@@ -60,7 +60,15 @@
                         <option value="Medium">Medium</option>
                         <option value="Low">Low</option>
                     </select>
-                    <a href="#send-event" class="btn">Send Event</a>
+                    <a th:if="${userRole.name() == 'SENIOR_CUSTOMER_SUPPORT_OFFICER'
+                    || userRole.name() == 'FINANCIAL_MANAGER'
+                    || userRole.name() == 'ADMINISTRATION_MANAGER'}" th:href="@{'/planningRequest/rejectRequest?id=' + ${request.id}}" class="btn">Reject Request</a>
+                    <div th:if="${request.status.name() != 'REJECTED'}">
+                        <a th:if="${userRole.name() == 'CUSTOMER_SUPPORT_OFFICER'}" th:href="@{'/planningRequest/sendRequest?id=' + ${request.id} + '&role=SENIOR_CUSTOMER_SUPPORT_OFFICER'}" class="btn">Send Request to Senior Customer Support Officer</a>
+                        <a th:if="${userRole.name() == 'SENIOR_CUSTOMER_SUPPORT_OFFICER'}" th:href="@{'/planningRequest/sendRequest?id=' + ${request.id} + '&role=FINANCIAL_MANAGER'}" class="btn">Send Request to Financial Manager</a>
+                        <a th:if="${userRole.name() == 'FINANCIAL_MANAGER'}" th:href="@{'/planningRequest/sendRequest?id=' + ${request.id} + '&role=ADMINISTRATION_MANAGER'}" class="btn">Send Request to Administration Manager</a>
+                        <a th:if="${userRole.name() == 'ADMINISTRATION_MANAGER'}" th:href="@{'/planningRequest/approveRequest?id=' + ${request.id}}" class="btn">Approve Request</a>
+                    </div>
                 </td>
             </tr>
             </tbody>

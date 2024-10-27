@@ -5,7 +5,6 @@ import se.swedisheventplanners.portal.domain.user.Role;
 import se.swedisheventplanners.portal.domain.user.SepUser;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface SepUserRepository extends JpaRepository<SepUser, Long> {
 
@@ -13,5 +12,4 @@ public interface SepUserRepository extends JpaRepository<SepUser, Long> {
 
     List<SepUser> findByRole(Role subTeamRole);
 
-    Optional<SepUser> findByUsername(String name);
 }

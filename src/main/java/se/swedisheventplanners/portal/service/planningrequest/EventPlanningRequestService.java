@@ -10,5 +10,9 @@ public interface EventPlanningRequestService {
 
     EventPlanningRequest save(EventPlanningRequest eventPlanningRequest);
 
+    EventPlanningRequest findById(Long id);
+
     List<EventPlanningRequest> findByAssignedToRole(Role role);
+
+    EventPlanningRequest sendRequest(Long id, Role assignedToRole);
 }

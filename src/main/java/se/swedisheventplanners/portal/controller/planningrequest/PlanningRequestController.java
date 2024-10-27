@@ -7,10 +7,7 @@ import org.modelmapper.TypeToken;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import se.swedisheventplanners.portal.domain.planningrequest.EventPlanningRequest;
 import se.swedisheventplanners.portal.domain.user.Role;
 import se.swedisheventplanners.portal.model.planningrequest.EventPlanningRequestDto;
@@ -47,7 +44,7 @@ public class PlanningRequestController {
         return "main";
     }
 
-    @PreAuthorize("hasAuthority('CUSTOMER_SUPPORT_OFFICER')")
+    @PreAuthorize("hasAnyAuthority('CUSTOMER_SUPPORT_OFFICER', 'SENIOR_CUSTOMER_SUPPORT_OFFICER', 'FINANCIAL_MANAGER', 'ADMINISTRATION_MANAGER')")
     @GetMapping("/managePlanningRequests")
     public String managePlanningRequests(Model model) {
         modelService.addAuthenticationToModel(model);
@@ -55,6 +52,14 @@ public class PlanningRequestController {
         List<EventPlanningRequestDto> requests = modelMapper.map(eventPlanningRequestService.findByAssignedToRole(role),
                 new TypeToken<List<EventPlanningRequestDto>>(){}.getType());
         model.addAttribute("requests", requests);
+        return "manage_planning_requests";
+    }
+
+    @PreAuthorize("hasAnyAuthority('CUSTOMER_SUPPORT_OFFICER', 'SENIOR_CUSTOMER_SUPPORT_OFFICER', 'FINANCIAL_MANAGER', 'ADMINISTRATION_MANAGER')")
+    @GetMapping("/sendRequest")
+    public String sendRequest(@RequestParam Long id, @RequestParam Role role, HttpServletResponse httpServletResponse) throws IOException {
+        eventPlanningRequestService.sendRequest(id, role);
+        httpServletResponse.sendRedirect("/planningRequest/managePlanningRequests");
         return "manage_planning_requests";
     }
 }

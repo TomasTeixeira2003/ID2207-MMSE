@@ -26,6 +26,10 @@ public class AdministrationManagerRoleService implements RoleService {
                 new PageLink("/manageUsers",
                 "Manage SEP Users",
                 "Check the list of all the registered SEP Users",
-                "View Users"));
+                "View Users"),
+                new PageLink("/planningRequest/managePlanningRequests",
+                        "View Planning Requests",
+                        "View Planning Requests",
+                        "View Planning Requests"));
     }
 }
