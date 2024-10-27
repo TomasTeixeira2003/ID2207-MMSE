@@ -8,7 +8,9 @@ import se.swedisheventplanners.portal.domain.planningrequest.Priority;
 import se.swedisheventplanners.portal.domain.recruitmentrequest.RecruitmentRequest;
 import se.swedisheventplanners.portal.domain.recruitmentrequest.RecruitmentRequestStatus;
 import se.swedisheventplanners.portal.domain.user.Role;
+import se.swedisheventplanners.portal.domain.user.SepUser;
 import se.swedisheventplanners.portal.repository.recruitmentrequest.RecruitmentRequestRepository;
+import se.swedisheventplanners.portal.service.SepUserService;
 import se.swedisheventplanners.portal.service.recruitmentrequest.RecruitmentRequestService;
 
 import java.util.List;
@@ -18,6 +20,7 @@ import java.util.List;
 public class RecruitmentRequestServiceImpl implements RecruitmentRequestService {
 
     private final RecruitmentRequestRepository recruitmentRequestRepository;
+    private final SepUserService sepUserService;
 
     @Override
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
@@ -70,6 +73,16 @@ public class RecruitmentRequestServiceImpl implements RecruitmentRequestService 
         recruitmentRequest.setPriority(originalRecruitmentRequest.getPriority());
         recruitmentRequest.setCreatedBy(originalRecruitmentRequest.getCreatedBy());
         recruitmentRequest.setAssignedToRole(originalRecruitmentRequest.getAssignedToRole());
+        return recruitmentRequestRepository.save(recruitmentRequest);
+    }
+
+    @Override
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
+    public RecruitmentRequest closeRequest(Long id) {
+        RecruitmentRequest recruitmentRequest = findById(id);
+        SepUser creator = sepUserService.findByUsername(recruitmentRequest.getCreatedBy());
+        recruitmentRequest.setAssignedToRole(creator.getRole());
+        recruitmentRequest.setStatus(RecruitmentRequestStatus.FULFILLED);
         return recruitmentRequestRepository.save(recruitmentRequest);
     }
 }

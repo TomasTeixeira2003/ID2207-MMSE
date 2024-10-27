@@ -33,33 +33,35 @@
             <!-- Contract Type -->
             <label>Contract type:</label>
             <div class="radio-group">
-                <label><input type="radio" name="contractType" value="FULL_TIME" th:checked="${editedRequest != null && editedRequest.contractType.name() == 'FULL_TIME'}"> Full time</label>
-                <label><input type="radio" name="contractType" value="PART_TIME" th:checked="${editedRequest != null && editedRequest.contractType.name() == 'PART_TIME'}"> Part time</label>
+                <label><input type="radio" name="contractType" value="FULL_TIME" th:checked="${editedRequest != null && editedRequest.contractType.name() == 'FULL_TIME'}" th:disabled="${userRole.name() == 'HR_MANAGER'}"> Full time</label>
+                <label><input type="radio" name="contractType" value="PART_TIME" th:checked="${editedRequest != null && editedRequest.contractType.name() == 'PART_TIME'}" th:disabled="${userRole.name() == 'HR_MANAGER'}"> Part time</label>
             </div>
 
             <!-- Requesting Department -->
             <label>Requesting department:</label>
             <div class="radio-group">
-                <label><input type="radio" name="requestingDepartment" value="ADMINISTRATION" th:checked="${editedRequest != null && editedRequest.requestingDepartment.name() == 'ADMINISTRATION'}">Administration</label>
-                <label><input type="radio" name="requestingDepartment" value="SERVICES" th:checked="${editedRequest != null && editedRequest.requestingDepartment.name() == 'SERVICES'}">Services</label>
-                <label><input type="radio" name="requestingDepartment" value="PRODUCTION" th:checked="${editedRequest != null && editedRequest.requestingDepartment.name() == 'PRODUCTION'}"> Production</label>
-                <label><input type="radio" name="requestingDepartment" value="FINANCIAL" th:checked="${editedRequest != null && editedRequest.requestingDepartment.name() == 'FINANCIAL'}"> Financial</label>
+                <label><input type="radio" name="requestingDepartment" value="ADMINISTRATION" th:checked="${editedRequest != null && editedRequest.requestingDepartment.name() == 'ADMINISTRATION'}" th:disabled="${userRole.name() == 'HR_MANAGER'}">Administration</label>
+                <label><input type="radio" name="requestingDepartment" value="SERVICES" th:checked="${editedRequest != null && editedRequest.requestingDepartment.name() == 'SERVICES'}" th:disabled="${userRole.name() == 'HR_MANAGER'}">Services</label>
+                <label><input type="radio" name="requestingDepartment" value="PRODUCTION" th:checked="${editedRequest != null && editedRequest.requestingDepartment.name() == 'PRODUCTION'}" th:disabled="${userRole.name() == 'HR_MANAGER'}"> Production</label>
+                <label><input type="radio" name="requestingDepartment" value="FINANCIAL" th:checked="${editedRequest != null && editedRequest.requestingDepartment.name() == 'FINANCIAL'}" th:disabled="${userRole.name() == 'HR_MANAGER'}"> Financial</label>
             </div>
 
             <!-- Years of Experience -->
             <label for="experience">Years of experience:</label>
-            <input type="text" id="experience" name="experience" placeholder="3 years minimum" th:value="${editedRequest != null ? editedRequest.experience : ''}">
+            <input type="text" id="experience" name="experience" placeholder="3 years minimum" th:value="${editedRequest != null ? editedRequest.experience : ''}" th:readonly="${userRole.name() == 'HR_MANAGER'}">
 
             <!-- Job Title -->
             <label for="jobTitle">Job title:</label>
-            <input type="text" id="jobTitle" name="jobTitle" placeholder="Graphic Designer" th:value="${editedRequest != null ? editedRequest.jobTitle : ''}">
+            <input type="text" id="jobTitle" name="jobTitle" placeholder="Graphic Designer" th:value="${editedRequest != null ? editedRequest.jobTitle : ''}" th:readonly="${userRole.name() == 'HR_MANAGER'}">
 
             <!-- Job Description -->
             <label for="jobDescription">Job description:</label>
-            <textarea id="jobDescription" name="jobDescription" rows="4" placeholder="Describe the job details here..." th:text="${editedRequest != null ? editedRequest.jobDescription : ''}"></textarea>
+            <textarea id="jobDescription" name="jobDescription" rows="4" placeholder="Describe the job details here..." th:text="${editedRequest != null ? editedRequest.jobDescription : ''}" th:readonly="${userRole.name() == 'HR_MANAGER'}"></textarea>
 
             <!-- Submit Button -->
-            <button type="submit" class="btn">Submit Request</button>
+            <button type="submit" class="btn-submit" th:if="${userRole.name() != 'HR_MANAGER'}">Submit Request</button>
+            <br/>
+            <a class="btn" th:href="@{/recruitmentRequest/manageRecruitmentRequests}" th:if="${userRole.name() == 'HR_MANAGER'}">Back to Recruitment Requests Management</a>
         </form>
     </div>
 </section>

@@ -22,4 +22,5 @@ public interface RecruitmentRequestService {
 
     RecruitmentRequest editRequest(Long id, RecruitmentRequest recruitmentRequest);
 
+    RecruitmentRequest closeRequest(Long id);
 }
