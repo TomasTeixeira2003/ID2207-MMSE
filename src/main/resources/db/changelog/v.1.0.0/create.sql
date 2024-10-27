@@ -37,3 +37,30 @@ CREATE TABLE task
 );
 
 ------------------------------------------------------------------------
+
+
+--changeset Dimitris.Bakalis:1.0.0-3
+
+------------------------------------------------------------------------
+
+CREATE TABLE event_planning_request
+(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    client_record_number VARCHAR(512),
+    client_name VARCHAR(512),
+    event_type VARCHAR(512),
+    description TEXT,
+    event_start DATE,
+    event_end DATE,
+    number_of_attendants INTEGER,
+    planned_budget NUMERIC,
+    decorations TEXT,
+    food_and_drinks TEXT,
+    music TEXT,
+    photos TEXT,
+    posters TEXT,
+    computer_related TEXT,
+    other_needs TEXT
+);
+
+------------------------------------------------------------------------

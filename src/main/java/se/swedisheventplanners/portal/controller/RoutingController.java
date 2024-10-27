@@ -17,11 +17,10 @@ import se.swedisheventplanners.portal.domain.task.Task;
 import se.swedisheventplanners.portal.domain.task.TaskStatus;
 import se.swedisheventplanners.portal.domain.user.Role;
 import se.swedisheventplanners.portal.domain.user.SepUser;
-import se.swedisheventplanners.portal.model.routing.PageLink;
 import se.swedisheventplanners.portal.model.task.TaskDto;
 import se.swedisheventplanners.portal.model.user.SepUserDto;
 import se.swedisheventplanners.portal.service.SepUserService;
-import se.swedisheventplanners.portal.service.role.RoleServiceFactory;
+import se.swedisheventplanners.portal.service.model.ModelService;
 import se.swedisheventplanners.portal.service.task.TaskService;
 
 import java.io.IOException;
@@ -35,7 +34,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class RoutingController {
 
-    private final RoleServiceFactory roleServiceFactory;
+    private final ModelService modelService;
     private final SepUserService sepUserService;
     private final TaskService taskService;
     private final PasswordEncoder passwordEncoder;
@@ -48,14 +47,14 @@ public class RoutingController {
 
     @GetMapping("/main")
     public String main(Model model) {
-        addAuthenticationToModel(model);
+        modelService.addAuthenticationToModel(model);
         return "main";
     }
 
     @PreAuthorize("hasAuthority('ADMINISTRATION_MANAGER')")
     @GetMapping("/createNewUser")
     public String createNewUser(Model model) {
-        addAuthenticationToModel(model);
+        modelService.addAuthenticationToModel(model);
         model.addAttribute("roles", Role.values());
         return "create_user";
     }
@@ -66,7 +65,7 @@ public class RoutingController {
         SepUser sepUser = modelMapper.map(sepUserDto, SepUser.class);
         sepUser.setHash(passwordEncoder.encode(sepUserDto.getHash()));
         sepUserService.createSepUser(sepUser);
-        addAuthenticationToModel(model);
+        modelService.addAuthenticationToModel(model);
         return "main";
     }
 
@@ -74,7 +73,7 @@ public class RoutingController {
     @GetMapping("/manageUsers")
     public String viewUsers(Model model) {
         List<SepUserDto> sepUsers = modelMapper.map(sepUserService.findAll(), new TypeToken<List<SepUserDto>>() {}.getType());
-        addAuthenticationToModel(model);
+        modelService.addAuthenticationToModel(model);
         model.addAttribute("sepUsers", sepUsers);
         return "manage_users";
     }
@@ -83,7 +82,7 @@ public class RoutingController {
     @GetMapping("/deactivateUser")
     public String deactivateUser(Model model, @RequestParam Long id, HttpServletResponse response) throws IOException {
         List<SepUserDto> sepUsers = modelMapper.map(sepUserService.deactivateUser(id), new TypeToken<List<SepUserDto>>() {}.getType());
-        addAuthenticationToModel(model);
+        modelService.addAuthenticationToModel(model);
         model.addAttribute("sepUsers", sepUsers);
         response.sendRedirect("/manageUsers");
         return "manage_users";
@@ -93,7 +92,7 @@ public class RoutingController {
     @GetMapping("/reactivateUser")
     public String reactivateUser(Model model, @RequestParam Long id,  HttpServletResponse response) throws IOException {
         List<SepUserDto> sepUsers = modelMapper.map(sepUserService.reactivateUser(id), new TypeToken<List<SepUserDto>>() {}.getType());
-        addAuthenticationToModel(model);
+        modelService.addAuthenticationToModel(model);
         model.addAttribute("sepUsers", sepUsers);
         response.sendRedirect("/manageUsers");
         return "manage_users";
@@ -103,7 +102,7 @@ public class RoutingController {
     @GetMapping("/deleteUser")
     public String deleteUser(Model model, @RequestParam Long id, HttpServletResponse response) throws IOException {
         List<SepUserDto> sepUsers = modelMapper.map(sepUserService.deleteUser(id), new TypeToken<List<SepUserDto>>() {}.getType());
-        addAuthenticationToModel(model);
+        modelService.addAuthenticationToModel(model);
         model.addAttribute("sepUsers", sepUsers);
         response.sendRedirect("/manageUsers");
         return "manage_users";
@@ -113,7 +112,7 @@ public class RoutingController {
     @GetMapping("/editUserRole")
     public String editUserRole(Model model, @RequestParam Long id) {
         SepUserDto user = modelMapper.map(sepUserService.findById(id), SepUserDto.class);
-        addAuthenticationToModel(model);
+        modelService.addAuthenticationToModel(model);
         model.addAttribute("editedUser", user);
         model.addAttribute("roles", Role.values());
         return "edit_user_role";
@@ -122,8 +121,8 @@ public class RoutingController {
     @PreAuthorize("hasAnyAuthority('SERVICES_MANAGER', 'PRODUCTION_MANAGER')")
     @GetMapping("/createTask")
     public String createTask(Model model) {
-        addAuthenticationToModel(model);
-        addAssigneesAndPrioritiesToModel(model);
+        modelService.addAuthenticationToModel(model);
+        modelService.addAssigneesAndPrioritiesToModel(model);
         return "create_task";
     }
 
@@ -141,7 +140,7 @@ public class RoutingController {
         Task task = modelMapper.map(taskDto, Task.class);
         task.setStatus(TaskStatus.ASSIGNED);
         taskService.save(task);
-        addAuthenticationToModel(model);
+        modelService.addAuthenticationToModel(model);
         response.sendRedirect("/main");
         return "main";
     }
@@ -156,8 +155,8 @@ public class RoutingController {
             return taskDto;
         }).collect(Collectors.toList());
         model.addAttribute("tasks", tasks);
-        addAssigneesAndPrioritiesToModel(model);
-        addAuthenticationToModel(model);
+        modelService.addAssigneesAndPrioritiesToModel(model);
+        modelService.addAuthenticationToModel(model);
         return "manage_tasks";
     }
 
@@ -171,9 +170,9 @@ public class RoutingController {
             return taskDto;
         }).collect(Collectors.toList());
         model.addAttribute("tasks", tasks);
-        addPrioritiesToModel(model);
-        addStatusesToModel(model);
-        addAuthenticationToModel(model);
+        modelService.addPrioritiesToModel(model);
+        modelService.addStatusesToModel(model);
+        modelService.addAuthenticationToModel(model);
         return "manage_tasks";
     }
 
@@ -182,8 +181,8 @@ public class RoutingController {
     public String deleteTask(Model model, @RequestParam Long id, HttpServletResponse response) throws IOException {
         List<TaskDto> tasks = modelMapper.map(taskService.deleteTask(id), new TypeToken<List<TaskDto>>() {}.getType());
         model.addAttribute("tasks", tasks);
-        addAuthenticationToModel(model);
-        addAssigneesAndPrioritiesToModel(model);
+        modelService.addAuthenticationToModel(model);
+        modelService.addAssigneesAndPrioritiesToModel(model);
         response.sendRedirect("/manageTasks");
         return "manage_tasks";
     }
@@ -193,8 +192,8 @@ public class RoutingController {
     public String deleteTask(Model model, @RequestParam Long id, @RequestParam Priority priority, HttpServletResponse response) throws IOException {
         List<TaskDto> tasks = modelMapper.map(taskService.changeTaskPriority(id, priority), new TypeToken<List<TaskDto>>() {}.getType());
         model.addAttribute("tasks", tasks);
-        addAuthenticationToModel(model);
-        addAssigneesAndPrioritiesToModel(model);
+        modelService.addAuthenticationToModel(model);
+        modelService.addAssigneesAndPrioritiesToModel(model);
         response.sendRedirect("/manageTasks");
         return "manage_tasks";
     }
@@ -204,8 +203,8 @@ public class RoutingController {
     public String changeTaskAssignee(Model model, @RequestParam Long id, @RequestParam Long assigneeId, HttpServletResponse response) throws IOException {
         List<TaskDto> tasks = modelMapper.map(taskService.changeTaskAssignee(id, assigneeId), new TypeToken<List<TaskDto>>() {}.getType());
         model.addAttribute("tasks", tasks);
-        addAuthenticationToModel(model);
-        addAssigneesAndPrioritiesToModel(model);
+        modelService.addAuthenticationToModel(model);
+        modelService.addAssigneesAndPrioritiesToModel(model);
         response.sendRedirect("/manageTasks");
         return "manage_tasks";
     }
@@ -217,7 +216,7 @@ public class RoutingController {
         model.addAttribute("tasks", tasks);
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         SepUser sepUser = sepUserService.findByUsername(authentication.getName());
-        addAuthenticationToModel(model);
+        modelService.addAuthenticationToModel(model);
         response.sendRedirect("/manageMyTasks?assigneeId=" + sepUser.getId());
         return "manage_tasks";
     }
@@ -227,8 +226,8 @@ public class RoutingController {
     public String editTask(Model model, @RequestParam Long id) {
         TaskDto editedTask = modelMapper.map(taskService.findById(id), TaskDto.class);
         model.addAttribute("editedTask", editedTask);
-        addAuthenticationToModel(model);
-        addAssigneesAndPrioritiesToModel(model);
+        modelService.addAuthenticationToModel(model);
+        modelService.addAssigneesAndPrioritiesToModel(model);
         return "edit_task";
     }
 
@@ -240,40 +239,6 @@ public class RoutingController {
         taskService.edit(editedTask);
         response.sendRedirect("/manageTasks");
         return "manage_tasks";
-    }
-
-    private void addAuthenticationToModel(Model model) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        SepUser sepUser = sepUserService.findByUsername(authentication.getName());
-        Role role = Role.valueOf(authentication.getAuthorities().stream()
-                .findAny().orElseThrow(() -> new IllegalStateException("No Role for authenticated user")).getAuthority());
-        List<PageLink> linksForUser = roleServiceFactory.getRoleService(role).getRolePageLinks(sepUser.getId());
-        model.addAttribute("user", authentication.getName());
-        model.addAttribute("userRole", role);
-        model.addAttribute("links", linksForUser);
-    }
-
-    private void addAssigneesAndPrioritiesToModel(Model model) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        Role role = Role.valueOf(authentication.getAuthorities().stream()
-                .findAny().orElseThrow(() -> new IllegalStateException("No Role for authenticated user")).getAuthority());
-        Role subTeamRole = switch (role) {
-            case SERVICES_MANAGER -> Role.SERVICES_SUB_TEAM;
-            case PRODUCTION_MANAGER -> Role.PRODUCTION_SUB_TEAM;
-            default -> throw new IllegalStateException("Unexpected value: " + role);
-        };
-        List<SepUserDto> sepUsers = modelMapper.map(sepUserService.findByRole(subTeamRole), new TypeToken<List<SepUserDto>>() {}.getType());
-        model.addAttribute("sepUsers", sepUsers);
-        addPrioritiesToModel(model);
-        addStatusesToModel(model);
-    }
-
-    private void addPrioritiesToModel(Model model) {
-        model.addAttribute("priorities", Priority.values());
-    }
-
-    private void addStatusesToModel(Model model) {
-        model.addAttribute("statuses", TaskStatus.values());
     }
 
 }

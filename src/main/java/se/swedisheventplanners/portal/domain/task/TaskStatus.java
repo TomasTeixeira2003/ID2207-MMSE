@@ -12,5 +12,5 @@ public enum TaskStatus {
     COMPLETED("Completed"),
     ABORTED("Aborted");
 
-    private String label;
+    private final String label;
 }
