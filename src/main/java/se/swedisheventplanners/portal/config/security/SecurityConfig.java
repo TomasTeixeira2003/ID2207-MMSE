@@ -12,7 +12,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
-import se.swedisheventplanners.portal.service.sepuser.impl.SepUserDetailsService;
+import se.swedisheventplanners.portal.service.user.impl.SepUserDetailsService;
 
 import static org.springframework.security.config.Customizer.withDefaults;
 

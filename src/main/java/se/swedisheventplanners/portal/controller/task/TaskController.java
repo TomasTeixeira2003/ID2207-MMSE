@@ -15,7 +15,7 @@ import se.swedisheventplanners.portal.domain.task.TaskStatus;
 import se.swedisheventplanners.portal.domain.user.SepUser;
 import se.swedisheventplanners.portal.model.task.TaskDto;
 import se.swedisheventplanners.portal.service.model.ModelService;
-import se.swedisheventplanners.portal.service.sepuser.SepUserService;
+import se.swedisheventplanners.portal.service.user.SepUserService;
 import se.swedisheventplanners.portal.service.task.TaskService;
 
 import java.io.IOException;

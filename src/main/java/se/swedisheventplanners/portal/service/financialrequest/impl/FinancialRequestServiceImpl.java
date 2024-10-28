@@ -10,7 +10,7 @@ import se.swedisheventplanners.portal.domain.planningrequest.Priority;
 import se.swedisheventplanners.portal.domain.user.Role;
 import se.swedisheventplanners.portal.domain.user.SepUser;
 import se.swedisheventplanners.portal.repository.financialrequest.FinancialRequestRepository;
-import se.swedisheventplanners.portal.service.sepuser.SepUserService;
+import se.swedisheventplanners.portal.service.user.SepUserService;
 import se.swedisheventplanners.portal.service.financialrequest.FinancialRequestService;
 
 import java.util.List;

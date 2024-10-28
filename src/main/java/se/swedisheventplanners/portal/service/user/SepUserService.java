@@ -1,4 +1,4 @@
-package se.swedisheventplanners.portal.service.sepuser;
+package se.swedisheventplanners.portal.service.user;
 
 import se.swedisheventplanners.portal.domain.user.Role;
 import se.swedisheventplanners.portal.domain.user.SepUser;

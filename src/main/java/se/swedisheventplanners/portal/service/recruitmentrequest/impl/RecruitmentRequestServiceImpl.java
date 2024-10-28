@@ -10,7 +10,7 @@ import se.swedisheventplanners.portal.domain.recruitmentrequest.RecruitmentReque
 import se.swedisheventplanners.portal.domain.user.Role;
 import se.swedisheventplanners.portal.domain.user.SepUser;
 import se.swedisheventplanners.portal.repository.recruitmentrequest.RecruitmentRequestRepository;
-import se.swedisheventplanners.portal.service.sepuser.SepUserService;
+import se.swedisheventplanners.portal.service.user.SepUserService;
 import se.swedisheventplanners.portal.service.recruitmentrequest.RecruitmentRequestService;
 
 import java.util.List;

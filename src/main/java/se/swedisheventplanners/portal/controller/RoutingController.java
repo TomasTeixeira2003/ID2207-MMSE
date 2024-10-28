@@ -14,7 +14,7 @@ import se.swedisheventplanners.portal.domain.user.Role;
 import se.swedisheventplanners.portal.domain.user.SepUser;
 import se.swedisheventplanners.portal.model.user.SepUserDto;
 import se.swedisheventplanners.portal.service.model.ModelService;
-import se.swedisheventplanners.portal.service.sepuser.SepUserService;
+import se.swedisheventplanners.portal.service.user.SepUserService;
 
 import java.io.IOException;
 import java.util.List;

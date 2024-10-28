@@ -1,4 +1,4 @@
-package se.swedisheventplanners.portal.service.sepuser.impl;
+package se.swedisheventplanners.portal.service.user.impl;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -7,7 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 import se.swedisheventplanners.portal.domain.user.Role;
 import se.swedisheventplanners.portal.domain.user.SepUser;
 import se.swedisheventplanners.portal.repository.user.SepUserRepository;
-import se.swedisheventplanners.portal.service.sepuser.SepUserService;
+import se.swedisheventplanners.portal.service.user.SepUserService;
 
 import java.util.List;
 

@@ -14,7 +14,7 @@ import se.swedisheventplanners.portal.domain.recruitmentrequest.RequestingDepart
 import se.swedisheventplanners.portal.domain.user.Role;
 import se.swedisheventplanners.portal.domain.user.SepUser;
 import se.swedisheventplanners.portal.repository.recruitmentrequest.RecruitmentRequestRepository;
-import se.swedisheventplanners.portal.service.sepuser.SepUserService;
+import se.swedisheventplanners.portal.service.user.SepUserService;
 
 import java.util.Optional;
 

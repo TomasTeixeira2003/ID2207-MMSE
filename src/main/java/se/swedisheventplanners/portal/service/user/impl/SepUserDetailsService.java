@@ -1,4 +1,4 @@
-package se.swedisheventplanners.portal.service.sepuser.impl;
+package se.swedisheventplanners.portal.service.user.impl;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
