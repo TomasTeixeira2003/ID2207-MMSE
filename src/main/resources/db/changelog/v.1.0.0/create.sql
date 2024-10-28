@@ -64,7 +64,8 @@ CREATE TABLE event_planning_request
     status VARCHAR (64),
     requested_by VARCHAR (512),
     priority VARCHAR (256),
-    assigned_to_role VARCHAR (256)
+    assigned_to_role VARCHAR (256),
+    budget_details TEXT
 );
 
 ------------------------------------------------------------------------
