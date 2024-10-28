@@ -22,6 +22,7 @@ public class TaskServiceImpl implements TaskService {
     @Override
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
     public Task save(Task task) {
+        task.setStatus(TaskStatus.ASSIGNED);
         return taskRepository.save(task);
     }
 

@@ -45,7 +45,6 @@ public class TaskController {
     @PostMapping("/createTask")
     public String createTaskPost(@ModelAttribute TaskDto taskDto, HttpServletResponse response) throws IOException {
         Task task = modelMapper.map(taskDto, Task.class);
-        task.setStatus(TaskStatus.ASSIGNED);
         taskService.save(task);
         response.sendRedirect("/main");
         return "main";
