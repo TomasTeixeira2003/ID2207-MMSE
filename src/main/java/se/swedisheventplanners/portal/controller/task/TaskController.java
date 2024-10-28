@@ -3,7 +3,6 @@ package se.swedisheventplanners.portal.controller.task;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
-import org.modelmapper.TypeToken;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -44,18 +43,17 @@ public class TaskController {
 
     @PreAuthorize("hasAnyAuthority('SERVICES_MANAGER', 'PRODUCTION_MANAGER')")
     @PostMapping("/createTask")
-    public String createTaskPost(Model model, @ModelAttribute TaskDto taskDto, HttpServletResponse response) throws IOException {
+    public String createTaskPost(@ModelAttribute TaskDto taskDto, HttpServletResponse response) throws IOException {
         Task task = modelMapper.map(taskDto, Task.class);
         task.setStatus(TaskStatus.ASSIGNED);
         taskService.save(task);
-        modelService.addAuthenticationToModel(model);
         response.sendRedirect("/main");
         return "main";
     }
 
     @PreAuthorize("hasAnyAuthority('SERVICES_MANAGER', 'PRODUCTION_MANAGER')")
     @GetMapping("/manageTasks")
-    public String manageTasks(Model model) throws IOException {
+    public String manageTasks(Model model) {
         Map<Long, String> userNames = sepUserService.findAll().stream().collect(Collectors.toMap(SepUser::getId, SepUser::getUsername));
         List<TaskDto> tasks = taskService.findAll().stream().map(t -> {
             TaskDto taskDto = modelMapper.map(t, TaskDto.class);
@@ -70,7 +68,7 @@ public class TaskController {
 
     @PreAuthorize("hasAnyAuthority('SERVICES_SUB_TEAM', 'PRODUCTION_SUB_TEAM')")
     @GetMapping("/manageMyTasks")
-    public String manageMyTasks(Model model, @RequestParam Long assigneeId) throws IOException {
+    public String manageMyTasks(Model model, @RequestParam Long assigneeId) {
         SepUser sepUser = sepUserService.findById(assigneeId);
         List<TaskDto> tasks = taskService.findByAssigneeId(assigneeId).stream().map(t -> {
             TaskDto taskDto = modelMapper.map(t, TaskDto.class);
@@ -86,11 +84,8 @@ public class TaskController {
 
     @PreAuthorize("hasAnyAuthority('SERVICES_MANAGER', 'PRODUCTION_MANAGER')")
     @GetMapping("/deleteTask")
-    public String deleteTask(Model model, @RequestParam Long id, HttpServletResponse response) throws IOException {
-        List<TaskDto> tasks = modelMapper.map(taskService.deleteTask(id), new TypeToken<List<TaskDto>>() {}.getType());
-        model.addAttribute("tasks", tasks);
-        modelService.addAuthenticationToModel(model);
-        modelService.addAssigneesAndPrioritiesToModel(model);
+    public String deleteTask(@RequestParam Long id, HttpServletResponse response) throws IOException {
+        taskService.deleteTask(id);
         response.sendRedirect("/task/manageTasks");
         return "manage_tasks";
     }
@@ -98,10 +93,7 @@ public class TaskController {
     @PreAuthorize("hasAnyAuthority('SERVICES_MANAGER', 'PRODUCTION_MANAGER')")
     @PostMapping("/changeTaskPriority")
     public String deleteTask(Model model, @RequestParam Long id, @RequestParam TaskPriority priority, HttpServletResponse response) throws IOException {
-        List<TaskDto> tasks = modelMapper.map(taskService.changeTaskPriority(id, priority), new TypeToken<List<TaskDto>>() {}.getType());
-        model.addAttribute("tasks", tasks);
-        modelService.addAuthenticationToModel(model);
-        modelService.addAssigneesAndPrioritiesToModel(model);
+        taskService.changeTaskPriority(id, priority);
         response.sendRedirect("/task/manageTasks");
         return "manage_tasks";
     }
@@ -109,22 +101,17 @@ public class TaskController {
     @PreAuthorize("hasAnyAuthority('SERVICES_MANAGER', 'PRODUCTION_MANAGER')")
     @PostMapping("/changeTaskAssignee")
     public String changeTaskAssignee(Model model, @RequestParam Long id, @RequestParam Long assigneeId, HttpServletResponse response) throws IOException {
-        List<TaskDto> tasks = modelMapper.map(taskService.changeTaskAssignee(id, assigneeId), new TypeToken<List<TaskDto>>() {}.getType());
-        model.addAttribute("tasks", tasks);
-        modelService.addAuthenticationToModel(model);
-        modelService.addAssigneesAndPrioritiesToModel(model);
+        taskService.changeTaskAssignee(id, assigneeId);
         response.sendRedirect("/task/manageTasks");
         return "manage_tasks";
     }
 
     @PreAuthorize("hasAnyAuthority('SERVICES_SUB_TEAM', 'PRODUCTION_SUB_TEAM')")
     @PostMapping("/changeTaskStatus")
-    public String changeTaskStatus(Model model, @RequestParam Long id, @RequestParam TaskStatus status, HttpServletResponse response) throws IOException {
-        List<TaskDto> tasks = modelMapper.map(taskService.changeTaskStatus(id, status), new TypeToken<List<TaskDto>>() {}.getType());
-        model.addAttribute("tasks", tasks);
+    public String changeTaskStatus(@RequestParam Long id, @RequestParam TaskStatus status, HttpServletResponse response) throws IOException {
+        taskService.changeTaskStatus(id, status);
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         SepUser sepUser = sepUserService.findByUsername(authentication.getName());
-        modelService.addAuthenticationToModel(model);
         response.sendRedirect("/task/manageMyTasks?assigneeId=" + sepUser.getId());
         return "manage_tasks";
     }

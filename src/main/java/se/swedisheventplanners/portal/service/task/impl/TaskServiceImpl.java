@@ -39,27 +39,24 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
-    public List<Task> deleteTask(Long id) {
+    public void deleteTask(Long id) {
         taskRepository.deleteById(id);
-        return taskRepository.findAll();
     }
 
     @Override
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
-    public List<Task> changeTaskPriority(Long id, TaskPriority priority) {
+    public Task changeTaskPriority(Long id, TaskPriority priority) {
         Task task = findById(id);
         task.setPriority(priority);
-        taskRepository.save(task);
-        return taskRepository.findAll();
+        return task;
     }
 
     @Override
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
-    public List<Task> changeTaskAssignee(Long id, Long assigneeId) {
+    public Task changeTaskAssignee(Long id, Long assigneeId) {
         Task task = findById(id);
         task.setAssigneeId(assigneeId);
-        taskRepository.save(task);
-        return taskRepository.findAll();
+        return task;
     }
 
     @Override
@@ -78,10 +75,9 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
-    public List<Task> changeTaskStatus(Long id, TaskStatus status) {
+    public Task changeTaskStatus(Long id, TaskStatus status) {
         Task task = findById(id);
         task.setStatus(status);
-        taskRepository.save(task);
-        return taskRepository.findAll();
+        return task;
     }
 }

@@ -14,15 +14,15 @@ public interface TaskService {
 
     Task findById(Long id);
 
-    List<Task> deleteTask(Long id);
+    void deleteTask(Long id);
 
-    List<Task> changeTaskPriority(Long id, TaskPriority priority);
+    Task changeTaskPriority(Long id, TaskPriority priority);
 
-    List<Task> changeTaskAssignee(Long id, Long assigneeId);
+    Task changeTaskAssignee(Long id, Long assigneeId);
 
     Task edit(Task editedTask);
 
     List<Task> findByAssigneeId(Long assigneeId);
 
-    List<Task> changeTaskStatus(Long id, TaskStatus status);
+    Task changeTaskStatus(Long id, TaskStatus status);
 }
