@@ -44,10 +44,10 @@
                 <td th:text="${user.role.label}"></td>
                 <td th:text="${user.active}"></td>
                 <td>
-                    <a th:href="@{'/editUserRole?id=' + ${user.id}}" class="btn">Edit</a>
-                    <a th:href="@{'/deleteUser?id=' + ${user.id}}" class="btn" onclick="return confirm('Are you sure you want to delete this user?');">Delete</a>
-                    <a th:if="${user.active}" th:href="@{'/deactivateUser?id=' + ${user.id}}" class="btn">Deactivate</a>
-                    <a th:if="${!user.active}" th:href="@{'/reactivateUser?id=' + ${user.id}}" class="btn">Reactivate</a>
+                    <a th:href="@{'/user/editUserRole?id=' + ${user.id}}" class="btn">Edit</a>
+                    <a th:href="@{'/user/deleteUser?id=' + ${user.id}}" class="btn" onclick="return confirm('Are you sure you want to delete this user?');">Delete</a>
+                    <a th:if="${user.active}" th:href="@{'/user/deactivateUser?id=' + ${user.id}}" class="btn">Deactivate</a>
+                    <a th:if="${!user.active}" th:href="@{'/user/reactivateUser?id=' + ${user.id}}" class="btn">Reactivate</a>
                 </td>
             </tr>
             </tbody>

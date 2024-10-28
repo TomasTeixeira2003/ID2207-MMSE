@@ -19,11 +19,11 @@ public class AdministrationManagerRoleService implements RoleService {
 
     @Override
     public List<PageLink> getRolePageLinks(Long userId) {
-        return List.of(new PageLink("/createNewUser",
+        return List.of(new PageLink("/user/createNewUser",
                 "Create a New SEP User",
                 "Create a New SEP User",
                 "Create User"),
-                new PageLink("/manageUsers",
+                new PageLink("/user/manageUsers",
                 "Manage SEP Users",
                 "Check the list of all the registered SEP Users",
                 "View Users"),

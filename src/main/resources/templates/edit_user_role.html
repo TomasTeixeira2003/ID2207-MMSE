@@ -29,7 +29,7 @@
 <section class="create-user">
     <div class="container">
         <h1>Edit User's Role</h1>
-        <form th:action="@{'/editUserRole?id='+ ${editedUser.id}}" method="POST">
+        <form th:action="@{'/user/editUserRole?id='+ ${editedUser.id}}" method="POST">
             <div class="form-group">
                 <label for="username">Username:</label>
                 <input th:value="${editedUser.username}" type="text" id="username" name="username" required readonly>

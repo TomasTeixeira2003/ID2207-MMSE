@@ -20,6 +20,10 @@ public class SepUserServiceImpl implements SepUserService {
     @Override
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
     public SepUser createSepUser(SepUser sepUser) {
+        SepUser foundUser = findByUsername(sepUser.getUsername());
+        if (foundUser != null) {
+            throw new IllegalArgumentException("Username already exists");
+        }
         sepUser.setActive(true);
         return sepUserRepository.save(sepUser);
     }
@@ -32,29 +36,24 @@ public class SepUserServiceImpl implements SepUserService {
 
     @Override
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
-    public List<SepUser> deactivateUser(Long id) {
-        SepUser sepUser = sepUserRepository.findById(id)
-                .orElseThrow(() -> new IllegalStateException(String.format("User with id: %d not found", id)));
+    public SepUser deactivateUser(Long id) {
+        SepUser sepUser = findById(id);
         sepUser.setActive(false);
-        sepUserRepository.save(sepUser);
-        return sepUserRepository.findAll();
+        return sepUser;
     }
 
     @Override
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
-    public List<SepUser> reactivateUser(Long id) {
-        SepUser sepUser = sepUserRepository.findById(id)
-                .orElseThrow(() -> new IllegalStateException(String.format("User with id: %d not found", id)));
+    public SepUser reactivateUser(Long id) {
+        SepUser sepUser = findById(id);
         sepUser.setActive(true);
-        sepUserRepository.save(sepUser);
-        return sepUserRepository.findAll();
+        return sepUser;
     }
 
     @Override
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
-    public List<SepUser> deleteUser(Long id) {
+    public void deleteUser(Long id) {
         sepUserRepository.deleteById(id);
-        return sepUserRepository.findAll();
     }
 
     @Override
@@ -69,7 +68,7 @@ public class SepUserServiceImpl implements SepUserService {
     public SepUser editUserRole(Long id, Role role) {
         SepUser user = findById(id);
         user.setRole(role);
-        return sepUserRepository.save(user);
+        return user;
     }
 
     @Override

@@ -11,11 +11,11 @@ public interface SepUserService {
 
     List<SepUser> findAll();
 
-    List<SepUser> deactivateUser(Long id);
+    SepUser deactivateUser(Long id);
 
-    List<SepUser> reactivateUser(Long id);
+    SepUser reactivateUser(Long id);
 
-    List<SepUser> deleteUser(Long id);
+    void deleteUser(Long id);
 
     SepUser findById(Long id);
 
