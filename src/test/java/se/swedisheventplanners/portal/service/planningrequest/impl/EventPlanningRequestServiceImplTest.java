@@ -68,6 +68,7 @@ class EventPlanningRequestServiceImplTest {
         Mockito.when(repository.findById(ID)).thenReturn(Optional.of(eventPlanningRequest));
         EventPlanningRequest modifiedRequest = eventPlanningRequestService.rejectRequest(ID);
         assertEquals(EventPlanningRequestStatus.REJECTED, modifiedRequest.getStatus());
+        assertEquals(Role.SENIOR_CUSTOMER_SUPPORT_OFFICER, modifiedRequest.getAssignedToRole());
     }
 
     @Test
@@ -75,6 +76,7 @@ class EventPlanningRequestServiceImplTest {
         Mockito.when(repository.findById(ID)).thenReturn(Optional.of(eventPlanningRequest));
         EventPlanningRequest modifiedRequest = eventPlanningRequestService.approveRequest(ID);
         assertEquals(EventPlanningRequestStatus.IN_PROGRESS, modifiedRequest.getStatus());
+        assertEquals(Role.SENIOR_CUSTOMER_SUPPORT_OFFICER, modifiedRequest.getAssignedToRole());
     }
 
     @Test
