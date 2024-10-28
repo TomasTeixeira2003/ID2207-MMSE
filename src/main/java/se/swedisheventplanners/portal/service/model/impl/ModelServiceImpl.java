@@ -14,7 +14,7 @@ import se.swedisheventplanners.portal.domain.user.Role;
 import se.swedisheventplanners.portal.domain.user.SepUser;
 import se.swedisheventplanners.portal.model.routing.PageLink;
 import se.swedisheventplanners.portal.model.user.SepUserDto;
-import se.swedisheventplanners.portal.service.SepUserService;
+import se.swedisheventplanners.portal.service.sepuser.SepUserService;
 import se.swedisheventplanners.portal.service.model.ModelService;
 import se.swedisheventplanners.portal.service.role.RoleServiceFactory;
 
@@ -28,6 +28,13 @@ public class ModelServiceImpl implements ModelService {
     private final RoleServiceFactory roleServiceFactory;
     private final ModelMapper modelMapper;
 
+    public static final String USER = "user";
+    public static final String USER_ROLE = "userRole";
+    public static final String LINKS = "links";
+    public static final String SEP_USERS = "sepUsers";
+    public static final String PRIORITIES = "priorities";
+    public static final String STATUSES = "statuses";
+
     @Override
     public void addAuthenticationToModel(Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -35,10 +42,9 @@ public class ModelServiceImpl implements ModelService {
         Role role = Role.valueOf(authentication.getAuthorities().stream()
                 .findAny().orElseThrow(() -> new IllegalStateException("No Role for authenticated user")).getAuthority());
         List<PageLink> linksForUser = roleServiceFactory.getRoleService(role).getRolePageLinks(sepUser.getId());
-        model.addAttribute("user", authentication.getName());
-        model.addAttribute("userRole", role);
-        model.addAttribute("links", linksForUser);
-
+        model.addAttribute(USER, authentication.getName());
+        model.addAttribute(USER_ROLE, role);
+        model.addAttribute(LINKS, linksForUser);
     }
 
     @Override
@@ -52,23 +58,23 @@ public class ModelServiceImpl implements ModelService {
             default -> throw new IllegalStateException("Unexpected value: " + role);
         };
         List<SepUserDto> sepUsers = modelMapper.map(sepUserService.findByRole(subTeamRole), new TypeToken<List<SepUserDto>>() {}.getType());
-        model.addAttribute("sepUsers", sepUsers);
+        model.addAttribute(SEP_USERS, sepUsers);
         addTaskPrioritiesToModel(model);
         addStatusesToModel(model);
     }
 
     @Override
     public void addTaskPrioritiesToModel(Model model) {
-        model.addAttribute("priorities", TaskPriority.values());
+        model.addAttribute(PRIORITIES, TaskPriority.values());
     }
 
     @Override
     public void addPrioritiesToModel(Model model) {
-        model.addAttribute("priorities", Priority.values());
+        model.addAttribute(PRIORITIES, Priority.values());
     }
 
     @Override
     public void addStatusesToModel(Model model) {
-        model.addAttribute("statuses", TaskStatus.values());
+        model.addAttribute(STATUSES, TaskStatus.values());
     }
 }

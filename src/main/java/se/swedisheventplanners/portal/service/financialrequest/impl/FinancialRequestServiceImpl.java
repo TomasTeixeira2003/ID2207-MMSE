@@ -10,7 +10,7 @@ import se.swedisheventplanners.portal.domain.planningrequest.Priority;
 import se.swedisheventplanners.portal.domain.user.Role;
 import se.swedisheventplanners.portal.domain.user.SepUser;
 import se.swedisheventplanners.portal.repository.financialrequest.FinancialRequestRepository;
-import se.swedisheventplanners.portal.service.SepUserService;
+import se.swedisheventplanners.portal.service.sepuser.SepUserService;
 import se.swedisheventplanners.portal.service.financialrequest.FinancialRequestService;
 
 import java.util.List;
@@ -47,7 +47,7 @@ public class FinancialRequestServiceImpl implements FinancialRequestService {
     public FinancialRequest changePriority(Long id, Priority priority) {
         FinancialRequest financialRequest = findById(id);
         financialRequest.setPriority(priority);
-        return financialRequestRepository.save(financialRequest);
+        return financialRequest;
     }
 
     @Override
@@ -55,7 +55,7 @@ public class FinancialRequestServiceImpl implements FinancialRequestService {
     public FinancialRequest sendRequestToFinancialManager(Long id) {
         FinancialRequest financialRequest = findById(id);
         financialRequest.setAssignedToRole(Role.FINANCIAL_MANAGER);
-        return financialRequestRepository.save(financialRequest);
+        return financialRequest;
     }
 
     @Override
@@ -83,7 +83,7 @@ public class FinancialRequestServiceImpl implements FinancialRequestService {
         SepUser creator = sepUserService.findByUsername(financialRequest.getCreatedBy());
         financialRequest.setAssignedToRole(creator.getRole());
         financialRequest.setStatus(FinancialRequestStatus.APPROVED);
-        return financialRequestRepository.save(financialRequest);
+        return financialRequest;
     }
 
     @Override
@@ -93,6 +93,6 @@ public class FinancialRequestServiceImpl implements FinancialRequestService {
         SepUser creator = sepUserService.findByUsername(financialRequest.getCreatedBy());
         financialRequest.setAssignedToRole(creator.getRole());
         financialRequest.setStatus(FinancialRequestStatus.REJECTED);
-        return financialRequestRepository.save(financialRequest);
+        return financialRequest;
     }
 }

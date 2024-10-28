@@ -10,7 +10,7 @@ import se.swedisheventplanners.portal.domain.recruitmentrequest.RecruitmentReque
 import se.swedisheventplanners.portal.domain.user.Role;
 import se.swedisheventplanners.portal.domain.user.SepUser;
 import se.swedisheventplanners.portal.repository.recruitmentrequest.RecruitmentRequestRepository;
-import se.swedisheventplanners.portal.service.SepUserService;
+import se.swedisheventplanners.portal.service.sepuser.SepUserService;
 import se.swedisheventplanners.portal.service.recruitmentrequest.RecruitmentRequestService;
 
 import java.util.List;
@@ -47,7 +47,7 @@ public class RecruitmentRequestServiceImpl implements RecruitmentRequestService 
     public RecruitmentRequest changePriority(Long id, Priority priority) {
         RecruitmentRequest recruitmentRequest = findById(id);
         recruitmentRequest.setPriority(priority);
-        return recruitmentRequestRepository.save(recruitmentRequest);
+        return recruitmentRequest;
     }
 
     @Override
@@ -55,7 +55,7 @@ public class RecruitmentRequestServiceImpl implements RecruitmentRequestService 
     public RecruitmentRequest sendRequestToHR(Long id) {
         RecruitmentRequest recruitmentRequest = findById(id);
         recruitmentRequest.setAssignedToRole(Role.HR_MANAGER);
-        return recruitmentRequestRepository.save(recruitmentRequest);
+        return recruitmentRequest;
     }
 
     @Override
@@ -83,6 +83,6 @@ public class RecruitmentRequestServiceImpl implements RecruitmentRequestService 
         SepUser creator = sepUserService.findByUsername(recruitmentRequest.getCreatedBy());
         recruitmentRequest.setAssignedToRole(creator.getRole());
         recruitmentRequest.setStatus(RecruitmentRequestStatus.FULFILLED);
-        return recruitmentRequestRepository.save(recruitmentRequest);
+        return recruitmentRequest;
     }
 }

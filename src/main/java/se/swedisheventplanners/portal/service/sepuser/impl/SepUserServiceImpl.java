@@ -7,7 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 import se.swedisheventplanners.portal.domain.user.Role;
 import se.swedisheventplanners.portal.domain.user.SepUser;
 import se.swedisheventplanners.portal.repository.user.SepUserRepository;
-import se.swedisheventplanners.portal.service.SepUserService;
+import se.swedisheventplanners.portal.service.sepuser.SepUserService;
 
 import java.util.List;
 

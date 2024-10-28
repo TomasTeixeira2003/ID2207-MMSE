@@ -48,7 +48,7 @@ public class EventPlanningRequestServiceImpl implements EventPlanningRequestServ
     public EventPlanningRequest sendRequest(Long id, Role assignedToRole) {
         EventPlanningRequest eventPlanningRequest = findById(id);
         eventPlanningRequest.setAssignedToRole(assignedToRole);
-        return eventPlanningRequestRepository.save(eventPlanningRequest);
+        return eventPlanningRequest;
     }
 
     @Override
@@ -56,7 +56,7 @@ public class EventPlanningRequestServiceImpl implements EventPlanningRequestServ
     public EventPlanningRequest rejectRequest(Long id) {
         EventPlanningRequest eventPlanningRequest = findById(id);
         eventPlanningRequest.setStatus(EventPlanningRequestStatus.REJECTED);
-        return eventPlanningRequestRepository.save(eventPlanningRequest);
+        return eventPlanningRequest;
     }
 
     @Override
@@ -65,7 +65,7 @@ public class EventPlanningRequestServiceImpl implements EventPlanningRequestServ
         EventPlanningRequest eventPlanningRequest = findById(id);
         eventPlanningRequest.setStatus(EventPlanningRequestStatus.IN_PROGRESS);
         eventPlanningRequest.setAssignedToRole(Role.SENIOR_CUSTOMER_SUPPORT_OFFICER);
-        return eventPlanningRequestRepository.save(eventPlanningRequest);
+        return eventPlanningRequest;
     }
 
     @Override
@@ -73,7 +73,7 @@ public class EventPlanningRequestServiceImpl implements EventPlanningRequestServ
     public EventPlanningRequest closeRequest(Long id) {
         EventPlanningRequest eventPlanningRequest = findById(id);
         eventPlanningRequest.setStatus(EventPlanningRequestStatus.CLOSED);
-        return eventPlanningRequestRepository.save(eventPlanningRequest);
+        return eventPlanningRequest;
     }
 
     @Override
@@ -81,7 +81,7 @@ public class EventPlanningRequestServiceImpl implements EventPlanningRequestServ
     public EventPlanningRequest archiveRequest(Long id) {
         EventPlanningRequest eventPlanningRequest = findById(id);
         eventPlanningRequest.setStatus(EventPlanningRequestStatus.ARCHIVED);
-        return eventPlanningRequestRepository.save(eventPlanningRequest);
+        return eventPlanningRequest;
     }
 
     @Override

@@ -14,7 +14,7 @@ public class RoleServiceFactoryImpl implements RoleServiceFactory {
 
     private final Map<Role, RoleService> roleServicesMap;
 
-    private RoleServiceFactoryImpl(List<RoleService> roleServices) {
+    public RoleServiceFactoryImpl(List<RoleService> roleServices) {
         roleServicesMap = new EnumMap<>(Role.class);
         roleServices.forEach(roleService -> roleServicesMap.put(roleService.getRole(), roleService));
     }
