@@ -111,10 +111,10 @@
             </div>
 
 
-            <h2 th:if="${userRole.name() == 'FINANCIAL_MANAGER'}">Budget Details</h2>
-            <div class="form-group" th:if="${userRole.name() == 'FINANCIAL_MANAGER'}">
+            <h2 th:if="${userRole.name() == 'FINANCIAL_MANAGER' || userRole.name() == 'ADMINISTRATION_MANAGER'}">Budget Details</h2>
+            <div class="form-group" th:if="${userRole.name() == 'FINANCIAL_MANAGER' || userRole.name() == 'ADMINISTRATION_MANAGER'}">
                 <label for="budgetDetails">Please specify budget details:</label>
-                <textarea id="budgetDetails" name="budgetDetails" rows="4" th:text="${editedRequest != null ? editedRequest.budgetDetails : ''}"></textarea>
+                <textarea id="budgetDetails" name="budgetDetails" rows="4" th:text="${editedRequest != null ? editedRequest.budgetDetails : ''}" th:readonly="${userRole.name() == 'ADMINISTRATION_MANAGER'}"></textarea>
             </div>
 
             <button type="submit" class="btn-submit">Submit Request</button>

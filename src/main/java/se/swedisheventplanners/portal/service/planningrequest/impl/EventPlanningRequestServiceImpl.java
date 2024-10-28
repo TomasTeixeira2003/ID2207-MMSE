@@ -56,6 +56,7 @@ public class EventPlanningRequestServiceImpl implements EventPlanningRequestServ
     public EventPlanningRequest rejectRequest(Long id) {
         EventPlanningRequest eventPlanningRequest = findById(id);
         eventPlanningRequest.setStatus(EventPlanningRequestStatus.REJECTED);
+        eventPlanningRequest.setAssignedToRole(Role.SENIOR_CUSTOMER_SUPPORT_OFFICER);
         return eventPlanningRequest;
     }
 
