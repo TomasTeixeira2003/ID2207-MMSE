@@ -29,7 +29,7 @@
 <section class="submit-task">
     <div class="container">
         <h1 th:text="${userRole.name() == 'PRODUCTION_MANAGER' ? 'Production Department' : 'Services Department'}"></h1>
-        <form th:action="@{/createTask}" method="POST">
+        <form th:action="@{/task/createTask}" method="POST">
             <div class="form-group">
                 <label for="project">Project Reference:</label>
                 <input type="text" id="project" name="project" required>

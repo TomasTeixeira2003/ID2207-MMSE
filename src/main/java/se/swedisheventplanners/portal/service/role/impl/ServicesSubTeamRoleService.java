@@ -17,7 +17,7 @@ public class ServicesSubTeamRoleService implements RoleService {
 
     @Override
     public List<PageLink> getRolePageLinks(Long userId) {
-        return List.of(new PageLink("/manageMyTasks?assigneeId=" + userId,
+        return List.of(new PageLink("/task/manageMyTasks?assigneeId=" + userId,
                 "Manage Tasks",
                 "Manage Tasks",
                 "Manage Tasks"));
