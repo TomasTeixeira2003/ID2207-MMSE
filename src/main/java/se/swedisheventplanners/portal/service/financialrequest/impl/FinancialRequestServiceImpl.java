@@ -33,7 +33,8 @@ public class FinancialRequestServiceImpl implements FinancialRequestService {
     @Override
     @Transactional(readOnly = true, propagation = Propagation.REQUIRED)
     public FinancialRequest findById(Long id) {
-        return financialRequestRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("FinancialRequest not found"));
+        return financialRequestRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("FinancialRequest not found"));
     }
 
     @Override

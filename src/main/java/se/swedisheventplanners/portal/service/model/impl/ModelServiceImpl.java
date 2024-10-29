@@ -57,7 +57,8 @@ public class ModelServiceImpl implements ModelService {
             case PRODUCTION_MANAGER -> Role.PRODUCTION_SUB_TEAM;
             default -> throw new IllegalStateException("Unexpected value: " + role);
         };
-        List<SepUserDto> sepUsers = modelMapper.map(sepUserService.findByRole(subTeamRole), new TypeToken<List<SepUserDto>>() {}.getType());
+        List<SepUserDto> sepUsers = modelMapper.map(sepUserService.findByRole(subTeamRole),
+                new TypeToken<List<SepUserDto>>() {}.getType());
         model.addAttribute(SEP_USERS, sepUsers);
         addTaskPrioritiesToModel(model);
         addStatusesToModel(model);

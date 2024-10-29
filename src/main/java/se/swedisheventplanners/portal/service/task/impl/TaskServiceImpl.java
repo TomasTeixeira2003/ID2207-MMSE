@@ -35,7 +35,8 @@ public class TaskServiceImpl implements TaskService {
     @Override
     @Transactional(readOnly = true, propagation = Propagation.REQUIRED)
     public Task findById(Long id) {
-        return taskRepository.findById(id).orElseThrow(() -> new IllegalStateException(String.format("Task with id: %s not found", id)));
+        return taskRepository.findById(id)
+                .orElseThrow(() -> new IllegalStateException(String.format("Task with id: %s not found", id)));
     }
 
     @Override
