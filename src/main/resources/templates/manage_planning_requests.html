@@ -35,7 +35,6 @@
                 <th>Request Title</th>
                 <th>Requested By</th>
                 <th>Status</th>
-                <th>Priority</th>
                 <th>Actions</th>
             </tr>
             </thead>
@@ -44,7 +43,6 @@
                 <td th:text="${request.description}"></td>
                 <td th:text="${request.requestedBy}"></td>
                 <td th:text="${request.status.label}"></td>
-                <td th:text="${request.priority.label}"></td>
                 <td>
                     <div th:if="${request.status.name() == 'PENDING'}">
                         <a th:href="@{'/planningRequest/editRequest?id=' + ${request.id}}" class="btn">Edit</a>
