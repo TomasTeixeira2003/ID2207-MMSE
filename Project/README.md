@@ -24,8 +24,8 @@ The system supports the specific workflows of four key departments:
 ### Installation & Build
 1.  **Clone the repository**:
     ```bash
-    git clone [your-repo-url]
-    cd SwedishEventPlanners
+    git clone git@github.com:TomasTeixeira2003/ID2207-MMSE.git
+    cd Project
     ```
 2.  **Build the project** using Maven:
     ```bash
